@@ -3,51 +3,620 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ESEN Microsoft Club — Build what comes next</title>
-  <meta name="description" content="EMC is ESEN's student technology community: build projects, learn with peers, meet your people, and grow into your next opportunity.">
-  <meta name="theme-color" content="#080a0d">
+  <title>ESEN Microsoft Club — Build, innovate, and grow with us</title>
+  <meta name="description" content="Student-led tech community at ESEN Manouba: workshops (Cloud, AI, Dev), hackathons, portfolio projects, and the MLSA program community. No experience required.">
+  <meta name="theme-color" content="#12151a">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ESEN Microsoft Club — Build what comes next">
-  <meta property="og:description" content="A student technology community at ESEN where curiosity becomes projects, skills become experience, and students build together.">
+  <meta property="og:title" content="ESEN Microsoft Club — Build, innovate, and grow with us">
+  <meta property="og:description" content="A student-led tech community at ESEN bridging tech, innovation, and business.">
   <meta property="og:image" content="assets/images/asset-02.jpg">
   <link rel="icon" href="assets/images/asset-01.png" type="image/png">
-  <link rel="stylesheet" href="css/styles.css?v=20260917d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css?v=20260918c">
 </head>
 <body>
-  <div class="site-noise" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="site-header">
     <div class="container nav-wrap">
-      <a class="brand" href="#home" aria-label="EMC home"><img src="assets/images/asset-01.png" alt="EMC logo"><span class="brand-name">ESEN Microsoft Club<small>STUDENT COMMUNITY / TUNISIA</small></span></a>
-      <nav class="desktop-nav" aria-label="Primary navigation"><a href="#projects">Build</a><a href="#events">Calendar</a><a href="#community">People</a><a href="#resources">Field guide</a></nav>
-      <div class="nav-actions"><button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme" title="Toggle theme"><span aria-hidden="true">D</span></button><a class="button button-primary nav-join" href="#join-us"><span>Join the club</span><b aria-hidden="true">↗</b></a><button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false"><span></span><span></span></button></div>
-      <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation"><a href="#projects">Build</a><a href="#events">Calendar</a><a href="#community">People</a><a href="#resources">Field guide</a><a class="mobile-join" href="#join-us">Join the club <span>↗</span></a></nav>
+      <a class="brand" href="#home" aria-label="EMC home">
+        <img src="assets/images/asset-01.png" width="40" height="40" alt="">
+        <span class="brand-name">ESEN Microsoft Club<small>ESEN · Manouba</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#events">Events</a>
+        <a href="#community">People</a>
+        <a href="#resources">Learn</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme" title="Toggle theme">
+          <span class="theme-icon" aria-hidden="true"></span>
+        </button>
+        <a class="button button-primary nav-join" href="#join-us">Join EMC</a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span>
+        </button>
+      </div>
+      <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#events">Events</a>
+        <a href="#community">People</a>
+        <a href="#resources">Learn</a>
+        <a href="#archive">Archive</a>
+        <a href="#faq">FAQ</a>
+        <a class="mobile-join" href="#join-us">Join EMC</a>
+      </nav>
     </div>
   </header>
 
-  <aside class="side-rail" aria-label="Section navigation"><a class="rail-logo" href="#home" aria-label="Back to EMC home"><img src="assets/images/asset-01.png" alt=""></a><span class="rail-line" aria-hidden="true"></span><nav class="rail-nav"><a href="#home" class="active" title="Overview"><i>00</i><span>Overview</span></a><a href="#projects" title="Projects"><i>01</i><span>Projects</span></a><a href="#events" title="Events"><i>02</i><span>Events</span></a><a href="#community" title="Community"><i>03</i><span>Community</span></a><a href="#join-us" title="Join EMC"><i>04</i><span>Join</span></a></nav><span class="rail-caption">EST. 2019</span></aside>
+  <main id="main">
+    <!-- Hero: brand + one job -->
+    <section class="hero" id="home">
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/images/asset-02.jpg" alt="" fetchpriority="high">
+      </div>
+      <div class="container hero-content">
+        <p class="hero-brand">ESEN Microsoft Club</p>
+        <p class="hero-status"><span class="live-dot" aria-hidden="true"></span> New chapter · MLSA program community</p>
+        <h1>Build, innovate, and grow with us.</h1>
+        <p class="hero-lead">A student-led tech community at ESEN bridging tech, innovation, and business — workshops, hackathons, and portfolio projects. No experience required.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#join-us">Apply to join</a>
+          <a class="button button-ghost" href="#events">See upcoming events</a>
+        </div>
+      </div>
+    </section>
 
-  <main>
-    <section class="hero" id="home"><div class="container hero-container"><div class="hero-topline"><span class="eyebrow">EMC / Community operating system</span><span class="hero-location">ESEN MANOUBA <i></i> TUNISIA</span></div><div class="hero-intro"><div class="hero-copy"><p class="hero-kicker"><span class="live-dot"></span> Recruitment is open · Fall 2026</p><h1>Make your next<br><span>move count.</span></h1><p class="hero-lead">A student technology community where curiosity becomes projects, skills become experience, and the right people make it all move faster.</p><div class="hero-actions"><a class="button button-primary magnetic" data-magnetic-strength="14" href="#join-us">Find your place <b aria-hidden="true">↗</b></a><a class="text-link" href="#projects">Explore the builds <span aria-hidden="true">→</span></a></div></div><div class="hero-aside"><span class="aside-index">FIELD NOTE / 042</span><div class="hero-photo-wrap"><img src="assets/images/asset-02.jpg" alt="EMC members collaborating during a workshop" fetchpriority="high"><span class="photo-label">BUILD TOGETHER</span></div><div class="hero-aside-footer"><span>500+ students reached</span><span>30+ ideas shipped</span></div></div></div><div class="hero-bento" aria-label="EMC at a glance"><article class="bento-card bento-feature spotlight-card"><div class="card-meta"><span>01 / THE CLUB</span><span class="card-arrow" aria-hidden="true">↗</span></div><div><span class="bento-number">04</span><h2>Departments.<br><em>One crew.</em></h2><p>Choose your first door into Project, Marketing, Talent Acquisition, or Entrepreneurship.</p></div><div class="department-pills"><span>Build</span><span>Tell stories</span><span>Grow people</span><span>Shape ideas</span></div></article><article class="bento-card bento-stat spotlight-card"><span class="card-label">COMMUNITY OUTPUT</span><strong>12</strong><span>hackathons & flagship events</span><div class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></article><article class="bento-card bento-event spotlight-card"><div class="card-meta"><span>NEXT ON THE BOARD</span><span class="event-status">UPCOMING</span></div><div class="bento-event-main"><time datetime="2026-10-03"><strong>03</strong><span>OCT</span></time><div><h3>Level Up: First API</h3><p>Hands-on workshop · ESEN Lab 2</p></div></div><a href="#events" class="card-link">See the calendar <span aria-hidden="true">↗</span></a></article><article class="bento-card bento-quote"><span class="quote-mark" aria-hidden="true">“</span><p>Bring a question.<br><strong>Leave with a project.</strong></p><span class="quote-byline">EMC / BUILD · LEARN · CONNECT · LEAD</span></article></div></div></section>
+    <!-- About: what / who / why -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-intro">
+            <span class="eyebrow">About us</span>
+            <h2>Learn by doing. Launch real careers.</h2>
+            <p>We are a student-led tech community at ESEN bridging the gap between tech, innovation, and business.</p>
+          </div>
+          <ul class="about-points">
+            <li>
+              <strong>What we do</strong>
+              <span>Hands-on workshops (Cloud, AI, Dev), hackathons, and real-world portfolio projects.</span>
+            </li>
+            <li>
+              <strong>Why we exist</strong>
+              <span>Help students gain practical skills and launch tech careers — no experience required.</span>
+            </li>
+            <li>
+              <strong>Mission</strong>
+              <span>Empower ESEN students with skills, experience, and a collaborative network.</span>
+            </li>
+            <li>
+              <strong>Vision</strong>
+              <span>ESEN’s premier tech hub where curiosity becomes impactful digital innovation.</span>
+            </li>
+          </ul>
+        </div>
 
-    <section class="section projects-section" id="projects"><div class="container"><div class="section-heading"><div><span class="eyebrow">01 / Project department</span><h2>Ideas with<br><em>receipts.</em></h2></div><div class="heading-note"><span class="heading-counter">01—06</span><p>Every project is a chance to practice the full loop: find a problem, make a first version, get feedback, and ship something useful.</p></div></div><div class="section-toolbar"><div class="filter-tabs" role="group" aria-label="Filter projects"><button class="filter-tab active" type="button" data-project-filter="All">All projects</button><button class="filter-tab" type="button" data-project-filter="React">React</button><button class="filter-tab" type="button" data-project-filter="Azure">Azure</button><button class="filter-tab" type="button" data-project-filter="Python">Python</button><button class="filter-tab" type="button" data-project-filter="UI/UX">UI/UX</button></div><span class="toolbar-note">OPEN SOURCE / STUDENT LED</span></div><div class="project-grid" id="projectGrid"></div></div></section>
+        <div class="values-row" aria-label="Core values">
+          <article>
+            <h3>Integrity</h3>
+            <p>We hold ourselves to the highest ethical standards.</p>
+          </article>
+          <article>
+            <h3>Collaboration</h3>
+            <p>Teamwork, creativity, and shared success.</p>
+          </article>
+          <article>
+            <h3>Excellence</h3>
+            <p>We strive for improvement and deliver strong results.</p>
+          </article>
+        </div>
 
-    <section class="section events-section" id="events"><div class="container"><div class="section-heading"><div><span class="eyebrow">02 / Community calendar</span><h2>Good work<br>needs <em>people.</em></h2></div><div class="heading-note"><span class="heading-counter">03 DATES</span><p>Workshops, open houses, and build days with a clear next step. Save a date, bring a friend, and leave with something new.</p></div></div><div class="events-layout"><div class="event-list" id="eventList"></div><aside class="archive-card spotlight-card"><div class="card-meta"><span>FROM THE ARCHIVE</span><span class="card-arrow" aria-hidden="true">↗</span></div><div class="archive-image"><img src="assets/images/asset-13.jpg" alt="EMC event moment" loading="lazy"><span>PAST / PRESENT / NEXT</span></div><h3>The room is part of the work.</h3><p>Catch up on the energy behind Coding Universe, Level Up, and the sessions that keep EMC moving.</p><a href="#archive" class="card-link">Browse the visual archive <span aria-hidden="true">↗</span></a></aside></div></div></section>
+        <div class="dept-strip" aria-label="Departments">
+          <article>
+            <span class="dept-num">01</span>
+            <h3>Project</h3>
+            <p>Technical execution, architecture, and shipping portfolio-ready builds.</p>
+          </article>
+          <article>
+            <span class="dept-num">02</span>
+            <h3>Marketing</h3>
+            <p>Brand, campaigns, and community engagement across campus.</p>
+          </article>
+          <article>
+            <span class="dept-num">03</span>
+            <h3>Talents</h3>
+            <p>Recruitment, member development, onboarding, and club culture.</p>
+          </article>
+          <article>
+            <span class="dept-num">04</span>
+            <h3>Business</h3>
+            <p>Finances, sponsorships, partnerships, and external relations.</p>
+          </article>
+        </div>
 
-    <section class="section community-section" id="community"><div class="container"><div class="section-heading"><div><span class="eyebrow">03 / The people layer</span><h2>Find your<br><em>next mentor.</em></h2></div><div class="heading-note"><span class="heading-counter">04 PEOPLE</span><p>The best part of EMC is the person next to you. Meet the board, find someone one step ahead, and make your first contribution together.</p></div></div><div class="team-grid" id="teamGrid"></div><div class="community-pulse"><div class="pulse-head"><div><span class="eyebrow">Live from EMC</span><h3>Community pulse</h3></div><span class="pulse-status"><i></i> THIS WEEK</span></div><div class="pulse-items"><article><span class="pulse-avatar">P</span><p><strong>Project Department</strong> opened a new issue for the Campus Connect build.<small>2 hours ago · 3 contributors needed</small></p><a href="#projects" aria-label="View projects">↗</a></article><article><span class="pulse-avatar coral">T</span><p><strong>Talent Acquisition</strong> shared a new starter path for first-time builders.<small>Yesterday · Web development track</small></p><a href="#resources" aria-label="View resources">↗</a></article><article><span class="pulse-avatar yellow">M</span><p><strong>Marketing team</strong> is collecting stories for the next EMC community post.<small>3 days ago · Add your voice</small></p><a href="#join-us" aria-label="Join EMC">↗</a></article></div></div><div class="community-lower"><div class="alumni-card"><span class="eyebrow">Where are they now?</span><h3>EMC keeps going after graduation.</h3><p>The club is a starting point for internships, first products, and the people you keep learning with.</p><div class="alumni-list"><div><span>IS</span><p><strong>Ines S.</strong><small>Software Engineer · Berlin</small></p><b>↗</b></div><div><span>KA</span><p><strong>Kais A.</strong><small>Cloud consultant · Tunis</small></p><b>↗</b></div><div><span>RB</span><p><strong>Rahma B.</strong><small>Product designer · Paris</small></p><b>↗</b></div></div></div><blockquote class="testimonial"><span class="testimonial-line"></span><p>EMC gave me a place to try things before I felt ready. The first project became a portfolio piece; the people became a network.</p><footer><span class="testimonial-avatar">MK</span><span><strong>Meriem K.</strong><small>EMC alumna · Class of 2024</small></span></footer></blockquote></div></div></section>
+        <dl class="stat-row">
+          <div>
+            <dt>50+</dt>
+            <dd>Events in our first mandate</dd>
+          </div>
+          <div>
+            <dt>04</dt>
+            <dd>Departments</dd>
+          </div>
+          <div>
+            <dt>07</dt>
+            <dd>Core board roles</dd>
+          </div>
+          <div>
+            <dt>MLSA</dt>
+            <dd>Program community</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
 
-    <section class="section resources-section" id="resources"><div class="container"><div class="section-heading"><div><span class="eyebrow">04 / Field guide</span><h2>Keep learning<br>between <em>sessions.</em></h2></div><div class="heading-note"><span class="heading-counter">04 PATHS</span><p>A small, opinionated set of paths and perks to help you make progress even when the next workshop is still on the horizon.</p></div></div><div class="resource-grid"><article class="resource-card spotlight-card"><span class="resource-index">01 //</span><h3>Web development</h3><p>From HTML and CSS foundations to your first full-stack project.</p><a class="card-link" href="https://developer.mozilla.org/en-US/docs/Learn" target="_blank" rel="noopener">Start roadmap <span>↗</span></a></article><article class="resource-card spotlight-card"><span class="resource-index">02 //</span><h3>Cloud fundamentals</h3><p>Understand the building blocks of cloud computing and make a first Azure deployment.</p><a class="card-link" href="https://learn.microsoft.com/training/azure/" target="_blank" rel="noopener">Open Microsoft Learn <span>↗</span></a></article><article class="resource-card spotlight-card"><span class="resource-index">03 //</span><h3>AI & data</h3><p>Learn to ask better questions of data, models, and the products around you.</p><a class="card-link" href="https://learn.microsoft.com/training/paths/get-started-with-artificial-intelligence-on-azure/" target="_blank" rel="noopener">Explore the path <span>↗</span></a></article><article class="resource-card spotlight-card"><span class="resource-index">04 //</span><h3>UI / UX starter</h3><p>Turn fuzzy ideas into flows, prototypes, and interfaces people can use.</p><a class="card-link" href="https://www.figma.com/resources/learn-design/" target="_blank" rel="noopener">Learn design <span>↗</span></a></article></div><div class="perks-card"><div><span class="eyebrow">Student perks</span><h3>Use the ecosystem<br>you already have.</h3></div><div class="perk-links"><a href="https://azure.microsoft.com/free/students/" target="_blank" rel="noopener"><span><strong>Azure for Students</strong><small>Free credits and cloud tools for projects.</small></span><b>↗</b></a><a href="https://education.github.com/pack" target="_blank" rel="noopener"><span><strong>GitHub Student Developer Pack</strong><small>Professional tools, free for students.</small></span><b>↗</b></a><a href="https://learn.microsoft.com/training/" target="_blank" rel="noopener"><span><strong>Microsoft Learn</strong><small>Self-paced modules for every level.</small></span><b>↗</b></a></div></div></div></section>
+    <!-- Projects -->
+    <section class="section projects-section" id="projects">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Projects</span>
+            <h2>Work with receipts.</h2>
+          </div>
+          <p class="heading-note">Student-built tools and experiments. Filter by stack, open a repo, or join the next sprint.</p>
+        </div>
+        <div class="section-toolbar">
+          <div class="filter-tabs" role="group" aria-label="Filter projects">
+            <button class="filter-tab active" type="button" data-project-filter="All">All</button>
+            <button class="filter-tab" type="button" data-project-filter="React">React</button>
+            <button class="filter-tab" type="button" data-project-filter="Azure">Azure</button>
+            <button class="filter-tab" type="button" data-project-filter="Python">Python</button>
+            <button class="filter-tab" type="button" data-project-filter="UI/UX">UI/UX</button>
+          </div>
+          <span class="toolbar-note">Open source · Student-led</span>
+        </div>
+        <div class="project-grid" id="projectGrid"></div>
+      </div>
+    </section>
 
-    <section class="section join-section" id="join-us"><div class="container join-layout"><div class="join-intro"><span class="eyebrow">05 / Your next move</span><h2>There is room<br>for <em>your idea.</em></h2><p class="hero-lead">No prior experience required. Bring a question, a skill, or just the willingness to show up.</p><div class="roadmap"><div class="roadmap-beam" aria-hidden="true"></div><div class="roadmap-step"><span>01</span><div><strong>Applications · now open</strong><small>Tell us what you want to explore.</small></div></div><div class="roadmap-step"><span>02</span><div><strong>Welcome session · October</strong><small>Meet the departments and find a first project.</small></div></div><div class="roadmap-step"><span>03</span><div><strong>Build with us · all year</strong><small>Learn in public, contribute, and make your mark.</small></div></div></div><div class="quiz-card"><div class="quiz-head"><span class="eyebrow">Not sure where to start?</span><span class="quiz-count" id="quizCount">01 / 03</span></div><h3>Find your EMC department</h3><div class="quiz-progress"><span id="quizProgress"></span></div><div class="quiz-question active" data-step="1"><p>What sounds most satisfying?</p><div class="quiz-options"><button class="quiz-option" type="button" data-answer="Project">Making a real thing work</button><button class="quiz-option" type="button" data-answer="Marketing">Making people care about an idea</button><button class="quiz-option" type="button" data-answer="Talent Acquisition">Helping someone learn a new skill</button></div></div><div class="quiz-question" data-step="2"><p>What would your ideal Saturday look like?</p><div class="quiz-options"><button class="quiz-option" type="button" data-answer="Entrepreneurship">Turning a rough idea into a pitch</button><button class="quiz-option" type="button" data-answer="Project">Pairing on a side project</button><button class="quiz-option" type="button" data-answer="Marketing">Shooting and editing a campaign</button></div></div><div class="quiz-question" data-step="3"><p>What do friends ask you for?</p><div class="quiz-options"><button class="quiz-option" type="button" data-answer="Talent Acquisition">Explaining tricky things</button><button class="quiz-option" type="button" data-answer="Entrepreneurship">Spotting the opportunity</button><button class="quiz-option" type="button" data-answer="Project">Fixing or building things</button></div></div><div class="quiz-result" id="quizResult"><span class="muted">Your strongest match is</span><strong id="quizResultName">Project</strong><p class="muted">There is no wrong answer — use this as your first door into EMC.</p><button class="button button-secondary button-small" id="quizReset" type="button">Try again</button></div></div></div><div class="application-card"><div class="application-top"><span class="status"><i></i> Recruitment open · Fall 2026</span><span class="application-code">EMC / 2026</span></div><h3>Apply to join the club</h3><p class="muted">A few details help us welcome you into the right conversation.</p><form id="recruitmentForm" action="https://api.web3forms.com/submit" method="POST" novalidate><input type="hidden" name="access_key" value="8facfe1e-1254-4b58-b065-402d86c80537"><input type="hidden" name="subject" value="New ESEN Microsoft Club Application"><input type="hidden" name="from_name" value="ESEN Microsoft Club Recruitment"><input type="checkbox" name="botcheck" class="honeypot" tabindex="-1" autocomplete="off"><div class="form-grid"><div class="form-group"><label for="fullname">Full name <sup>*</sup></label><input class="form-input" id="fullname" name="name" type="text" placeholder="e.g. Anis Mansour" autocomplete="name" aria-describedby="fullname-error"><span class="form-error" id="fullname-error">Please enter your name.</span></div><div class="form-group"><label for="email">Email address <sup>*</sup></label><input class="form-input" id="email" name="email" type="email" placeholder="name@domain.com" autocomplete="email" aria-describedby="email-error"><span class="form-error" id="email-error">Please enter a valid email.</span></div><div class="form-group"><label for="level">Study level <sup>*</sup></label><select class="form-select" id="level" name="study_level" aria-describedby="level-error"><option value="">Select your year</option><option>1st Year License</option><option>2nd Year License</option><option>3rd Year License</option><option>1st Year Master</option><option>2nd Year Master</option></select><span class="form-error" id="level-error">Please choose your study level.</span></div><div class="form-group"><label for="department">Preferred department <sup>*</sup></label><select class="form-select" id="department" name="department" aria-describedby="department-error"><option value="">Choose a department</option><option>Project</option><option>Talent Acquisition</option><option>Marketing</option><option>Entrepreneurship</option></select><span class="form-error" id="department-error">Please choose a department.</span></div><div class="form-group full"><label for="motivation">What do you want to explore?</label><textarea class="form-textarea" id="motivation" name="message" rows="4" placeholder="Tell us about an interest, skill, or idea…"></textarea></div></div><button class="button button-primary submit-button" id="submitApplication" type="submit">Send application <b>↗</b></button><p class="form-note">We only use your details to respond to this application.</p><p class="form-status" id="formStatus" role="status" aria-live="polite"></p></form><div class="success-state" id="successState" aria-live="polite"><div class="success-mark">✓</div><h3>You are on the list.</h3><p class="muted">Thanks for reaching out. The EMC team will follow up with orientation details soon.</p><button class="button button-secondary button-small" type="button" id="resetForm">Submit another application</button></div></div></div></section>
+    <!-- Events -->
+    <section class="section events-section" id="events">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Events</span>
+            <h2>Show up. Leave with something new.</h2>
+          </div>
+          <p class="heading-note">Workshops, open houses, and build days. Save a date, bring a friend.</p>
+        </div>
+        <div class="events-layout">
+          <div class="event-list" id="eventList"></div>
+          <aside class="events-aside">
+            <figure class="events-photo">
+              <img src="assets/images/asset-13.jpg" alt="EMC members at a campus event" loading="lazy">
+              <figcaption>Past sessions · Coding Universe · Level Up</figcaption>
+            </figure>
+            <p>The room is part of the work. Browse photos from workshops and hackathons in the archive.</p>
+            <a class="text-link" href="#archive">Open the photo archive <span aria-hidden="true">→</span></a>
+          </aside>
+        </div>
+      </div>
+    </section>
 
-    <section class="section archive-section" id="archive"><div class="container"><div class="section-heading"><div><span class="eyebrow">06 / Visual archive</span><h2>Proof of <em>life.</em></h2></div><div class="heading-note"><span class="heading-counter">12 FRAMES</span><p>People, projects, and small moments from the sessions that keep EMC moving.</p></div></div><div class="gallery-toolbar"><span class="toolbar-note">Tap a frame to enlarge it</span><div class="filter-tabs" role="group" aria-label="Filter photo archive"><button class="filter-tab active" type="button" data-gallery-filter="all">All</button><button class="filter-tab" type="button" data-gallery-filter="events">Events</button><button class="filter-tab" type="button" data-gallery-filter="workshops">Workshops</button><button class="filter-tab" type="button" data-gallery-filter="community">Community</button></div></div><div class="gallery-grid" id="galleryGrid"></div></div></section>
+    <!-- Community -->
+    <section class="section community-section" id="community">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Our core team</span>
+            <h2>Meet the board.</h2>
+          </div>
+          <p class="heading-note">The people leading this chapter — strategy, projects, talents, marketing, business, and events.</p>
+        </div>
+        <div class="team-grid" id="teamGrid"></div>
 
-    <section class="section faq-section" id="faq"><div class="container"><div class="section-heading"><div><span class="eyebrow">07 / Good questions</span><h2>Before you<br><em>jump in.</em></h2></div><div class="heading-note"><span class="heading-counter">THE BASICS</span><p>Still curious? The fastest answer is usually to join a session. Here are the basics.</p></div></div><div class="faq-grid"><div class="faq-item open"><button class="faq-trigger" type="button" aria-expanded="true" aria-controls="faq-answer-1">Can first-year students join?<span>＋</span></button><div class="faq-answer" id="faq-answer-1"><p>Absolutely. EMC is designed to help you find your footing, meet people, and learn by doing — no seniority required.</p></div></div><div class="faq-item"><button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-answer-2">Do I need prior coding experience?<span>＋</span></button><div class="faq-answer" id="faq-answer-2"><p>No. Project, Marketing, Talent Acquisition, and Entrepreneurship all need different kinds of curiosity. The quiz above can help you choose a first door.</p></div></div><div class="faq-item"><button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-answer-3">How much time should I expect?<span>＋</span></button><div class="faq-answer" id="faq-answer-3"><p>Most members spend a few hours a week on their department work, with more time around events. We care about consistency, not an impossible schedule.</p></div></div><div class="faq-item"><button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-answer-4">What happens after I apply?<span>＋</span></button><div class="faq-answer" id="faq-answer-4"><p>The board reviews applications, contacts you by email, and invites you to an orientation where you can meet each department before choosing your path.</p></div></div></div></div></section>
+        <div class="community-lower">
+          <div class="alumni-block">
+            <span class="eyebrow">Alumni</span>
+            <h3>Where members go next</h3>
+            <p>The club is a starting point for internships, first products, and the people you keep learning with.</p>
+            <ul class="alumni-list">
+              <li>
+                <span class="alumni-avatar" aria-hidden="true">IS</span>
+                <div>
+                  <strong>Ines S.</strong>
+                  <small>Software Engineer · Berlin</small>
+                </div>
+              </li>
+              <li>
+                <span class="alumni-avatar" aria-hidden="true">KA</span>
+                <div>
+                  <strong>Kais A.</strong>
+                  <small>Cloud consultant · Tunis</small>
+                </div>
+              </li>
+              <li>
+                <span class="alumni-avatar" aria-hidden="true">RB</span>
+                <div>
+                  <strong>Rahma B.</strong>
+                  <small>Product designer · Paris</small>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <blockquote class="testimonial">
+            <p>“EMC gave me a place to try things before I felt ready. The first project became a portfolio piece; the people became a network.”</p>
+            <footer>
+              <span class="testimonial-avatar" aria-hidden="true">MK</span>
+              <span>
+                <strong>Meriem K.</strong>
+                <small>EMC alumna · Class of 2024</small>
+              </span>
+            </footer>
+          </blockquote>
+        </div>
+
+        <div class="pulse-block">
+          <div class="pulse-head">
+            <h3>This week at EMC</h3>
+            <span class="pulse-status"><i aria-hidden="true"></i> Live updates</span>
+          </div>
+          <ul class="pulse-items">
+            <li>
+              <span class="pulse-mark">P</span>
+              <p><strong>Project</strong> is preparing builds ahead of the Megatronix hackathon. <small>This month · contributors welcome</small></p>
+            </li>
+            <li>
+              <span class="pulse-mark accent">T</span>
+              <p><strong>Talents</strong> is running October onboarding and soft-skills sessions. <small>Now · new members</small></p>
+            </li>
+            <li>
+              <span class="pulse-mark warm">B</span>
+              <p><strong>Business</strong> is coordinating partnerships for SDG Soft with Enactus ESEN. <small>November · joint initiative</small></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="section resources-section" id="resources">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Learn</span>
+            <h2>Keep going between sessions.</h2>
+          </div>
+          <p class="heading-note">Short, opinionated paths — plus student perks you can use today.</p>
+        </div>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <span class="resource-index">01</span>
+            <h3>Web development</h3>
+            <p>HTML and CSS foundations through your first full-stack project.</p>
+            <a class="text-link" href="https://developer.mozilla.org/en-US/docs/Learn" target="_blank" rel="noopener">MDN Learn <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="resource-card">
+            <span class="resource-index">02</span>
+            <h3>Cloud fundamentals</h3>
+            <p>Core cloud concepts and your first Azure deployment.</p>
+            <a class="text-link" href="https://learn.microsoft.com/training/azure/" target="_blank" rel="noopener">Microsoft Learn <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="resource-card">
+            <span class="resource-index">03</span>
+            <h3>AI &amp; data</h3>
+            <p>Ask better questions of data, models, and the products around you.</p>
+            <a class="text-link" href="https://learn.microsoft.com/training/paths/get-started-with-artificial-intelligence-on-azure/" target="_blank" rel="noopener">AI starter path <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="resource-card">
+            <span class="resource-index">04</span>
+            <h3>UI / UX</h3>
+            <p>Turn fuzzy ideas into flows, prototypes, and usable interfaces.</p>
+            <a class="text-link" href="https://www.figma.com/resources/learn-design/" target="_blank" rel="noopener">Figma resources <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+        <div class="perks-block">
+          <div class="perks-intro">
+            <span class="eyebrow">Member benefits</span>
+            <h3>What you get when you join</h3>
+          </div>
+          <ul class="perk-links">
+            <li>
+              <a href="#projects">
+                <strong>Portfolio projects</strong>
+                <small>Ship-ready work to showcase on your CV</small>
+              </a>
+            </li>
+            <li>
+              <a href="#events">
+                <strong>Hackathons &amp; events</strong>
+                <small>Test skills, win prizes, tackle team challenges</small>
+              </a>
+            </li>
+            <li>
+              <a href="https://learn.microsoft.com/training/" target="_blank" rel="noopener">
+                <strong>Industry certifications</strong>
+                <small>Guided support for Microsoft credentials</small>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Join -->
+    <section class="section join-section" id="join-us">
+      <div class="container join-layout">
+        <div class="join-intro">
+          <span class="eyebrow">Join</span>
+          <h2>There’s room for your idea.</h2>
+          <p class="lead">No prior experience required. Bring a question, a skill, or the willingness to show up.</p>
+          <ol class="roadmap">
+            <li>
+              <span class="roadmap-num">01</span>
+              <div>
+                <strong>Apply now</strong>
+                <small>Tell us what you want to explore.</small>
+              </div>
+            </li>
+            <li>
+              <span class="roadmap-num">02</span>
+              <div>
+                <strong>Welcome session · October</strong>
+                <small>Meet departments and pick a first project.</small>
+              </div>
+            </li>
+            <li>
+              <span class="roadmap-num">03</span>
+              <div>
+                <strong>Build with us</strong>
+                <small>Learn in public and contribute all year.</small>
+              </div>
+            </li>
+          </ol>
+
+          <div class="quiz-card">
+            <div class="quiz-head">
+              <span class="eyebrow">Department matcher</span>
+              <span class="quiz-count" id="quizCount">01 / 03</span>
+            </div>
+            <h3>Not sure where to start?</h3>
+            <div class="quiz-progress" aria-hidden="true"><span id="quizProgress"></span></div>
+            <div class="quiz-question active" data-step="1">
+              <p>What sounds most satisfying?</p>
+              <div class="quiz-options">
+                <button class="quiz-option" type="button" data-answer="Project">Making a real thing work</button>
+                <button class="quiz-option" type="button" data-answer="Marketing">Making people care about an idea</button>
+                <button class="quiz-option" type="button" data-answer="Talents">Helping someone learn a new skill</button>
+              </div>
+            </div>
+            <div class="quiz-question" data-step="2">
+              <p>What would your ideal Saturday look like?</p>
+              <div class="quiz-options">
+                <button class="quiz-option" type="button" data-answer="Business">Turning a rough idea into a partnership</button>
+                <button class="quiz-option" type="button" data-answer="Project">Pairing on a side project</button>
+                <button class="quiz-option" type="button" data-answer="Marketing">Shooting and editing a campaign</button>
+              </div>
+            </div>
+            <div class="quiz-question" data-step="3">
+              <p>What do friends ask you for?</p>
+              <div class="quiz-options">
+                <button class="quiz-option" type="button" data-answer="Talents">Explaining tricky things</button>
+                <button class="quiz-option" type="button" data-answer="Business">Spotting the opportunity</button>
+                <button class="quiz-option" type="button" data-answer="Project">Fixing or building things</button>
+              </div>
+            </div>
+            <div class="quiz-result" id="quizResult">
+              <span class="muted">Your strongest match is</span>
+              <strong id="quizResultName">Project</strong>
+              <p class="muted">No wrong answer — use this as your first door into EMC.</p>
+              <button class="button button-secondary button-small" id="quizReset" type="button">Try again</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="application-card">
+          <div class="application-top">
+            <span class="status"><i aria-hidden="true"></i> Recruitment open · Fall 2026</span>
+            <span class="application-code">EMC / 2026</span>
+          </div>
+          <h3>Apply to join</h3>
+          <p class="muted">A few details help us welcome you into the right conversation.</p>
+          <form id="recruitmentForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+            <input type="hidden" name="access_key" value="8facfe1e-1254-4b58-b065-402d86c80537">
+            <input type="hidden" name="subject" value="New ESEN Microsoft Club Application">
+            <input type="hidden" name="from_name" value="ESEN Microsoft Club Recruitment">
+            <input type="checkbox" name="botcheck" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="fullname">Full name <span class="req">*</span></label>
+                <input class="form-input" id="fullname" name="name" type="text" placeholder="e.g. Anis Mansour" autocomplete="name" aria-describedby="fullname-error">
+                <span class="form-error" id="fullname-error">Please enter your name.</span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email <span class="req">*</span></label>
+                <input class="form-input" id="email" name="email" type="email" placeholder="name@domain.com" autocomplete="email" aria-describedby="email-error">
+                <span class="form-error" id="email-error">Please enter a valid email.</span>
+              </div>
+              <div class="form-group">
+                <label for="level">Study level <span class="req">*</span></label>
+                <select class="form-select" id="level" name="study_level" aria-describedby="level-error">
+                  <option value="">Select your year</option>
+                  <option>1st Year License</option>
+                  <option>2nd Year License</option>
+                  <option>3rd Year License</option>
+                  <option>1st Year Master</option>
+                  <option>2nd Year Master</option>
+                </select>
+                <span class="form-error" id="level-error">Please choose your study level.</span>
+              </div>
+              <div class="form-group">
+                <label for="department">Preferred department <span class="req">*</span></label>
+                <select class="form-select" id="department" name="department" aria-describedby="department-error">
+                  <option value="">Choose a department</option>
+                  <option>Project</option>
+                  <option>Talents</option>
+                  <option>Marketing</option>
+                  <option>Business</option>
+                </select>
+                <span class="form-error" id="department-error">Please choose a department.</span>
+              </div>
+              <div class="form-group full">
+                <label for="motivation">What do you want to explore?</label>
+                <textarea class="form-textarea" id="motivation" name="message" rows="4" placeholder="An interest, skill, or idea…"></textarea>
+              </div>
+            </div>
+            <button class="button button-primary submit-button" id="submitApplication" type="submit">Send application</button>
+            <p class="form-note">We only use your details to respond to this application.</p>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+          <div class="success-state" id="successState" aria-live="polite">
+            <div class="success-mark" aria-hidden="true">✓</div>
+            <h3>You’re on the list.</h3>
+            <p class="muted">Thanks for reaching out. The EMC team will follow up with orientation details soon.</p>
+            <button class="button button-secondary button-small" type="button" id="resetForm">Submit another</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Archive -->
+    <section class="section archive-section" id="archive">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Archive</span>
+            <h2>Proof of life.</h2>
+          </div>
+          <p class="heading-note">People, projects, and small moments from the sessions that keep EMC moving.</p>
+        </div>
+        <div class="gallery-toolbar">
+          <span class="toolbar-note">Select a photo to enlarge</span>
+          <div class="filter-tabs" role="group" aria-label="Filter photo archive">
+            <button class="filter-tab active" type="button" data-gallery-filter="all">All</button>
+            <button class="filter-tab" type="button" data-gallery-filter="events">Events</button>
+            <button class="filter-tab" type="button" data-gallery-filter="workshops">Workshops</button>
+            <button class="filter-tab" type="button" data-gallery-filter="community">Community</button>
+          </div>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-section" id="faq">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">FAQ</span>
+            <h2>Before you jump in.</h2>
+          </div>
+          <p class="heading-note">Still curious? Joining a session is the fastest answer. Here are the basics.</p>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item open">
+            <button class="faq-trigger" type="button" aria-expanded="true" aria-controls="faq-answer-1" id="faq-q-1">
+              Can first-year students join?
+              <span aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-q-1">
+              <p>Yes. EMC is designed to help you find your footing, meet people, and learn by doing — no seniority required.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-answer-2" id="faq-q-2">
+              Do I need prior coding experience?
+              <span aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-q-2">
+              <p>No. Project, Marketing, Talents, and Business all need different kinds of curiosity. The department quiz can help you choose a first door.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-answer-3" id="faq-q-3">
+              How much time should I expect?
+              <span aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-q-3">
+              <p>Most members spend a few hours a week on department work, with more time around events. We care about consistency, not an impossible schedule.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-answer-4" id="faq-q-4">
+              What happens after I apply?
+              <span aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-q-4">
+              <p>The board reviews applications, contacts you by email, and invites you to an orientation where you can meet each department before choosing your path.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <nav class="mobile-bottom-nav" aria-label="Mobile section navigation"><a class="active" href="#home"><span>00</span>Home</a><a href="#projects"><span>01</span>Build</a><a href="#events"><span>02</span>Events</a><a href="#join-us"><span>04</span>Join</a></nav>
-  <div class="modal" id="galleryModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-box"><button class="modal-close" id="modalClose" type="button" aria-label="Close photo">×</button><img src="" alt=""><div class="modal-meta"><small></small><h3 id="modalTitle"></h3></div></div></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal" id="galleryModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose" type="button" aria-label="Close photo">×</button>
+      <img src="" alt="">
+      <div class="modal-meta">
+        <small></small>
+        <h3 id="modalTitle"></h3>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <footer class="site-footer"><div class="container"><div class="footer-top"><div><a class="brand" href="#home"><img src="assets/images/asset-08.png" alt="EMC logo"><span class="brand-name">ESEN Microsoft Club<small>BUILD · LEARN · CONNECT · LEAD</small></span></a><p class="footer-intro">A student technology community at ESEN, Tunisia. Students building, learning, and growing together.</p><div class="social-row"><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn ↗</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://github.com/esen-microsoft-club" target="_blank" rel="noopener">GitHub ↗</a><a href="mailto:contact@emcclub.tn">Email ↗</a></div></div><div><h3>Explore</h3><a href="#projects">Projects</a><a href="#events">Events</a><a href="#community">People</a><a href="#archive">Archive</a></div><div><h3>Learn</h3><a href="#resources">Field guide</a><a href="https://learn.microsoft.com/training/" target="_blank" rel="noopener">Microsoft Learn</a><a href="https://education.github.com/pack" target="_blank" rel="noopener">Student Pack</a><a href="#faq">FAQ</a></div><div><h3>Campus</h3><a href="http://www.esen.tn/" target="_blank" rel="noopener">ESEN Manouba ↗</a><a href="https://studentambassadors.microsoft.com/" target="_blank" rel="noopener">Microsoft ecosystem ↗</a><a href="mailto:contact@emcclub.tn">contact@emcclub.tn</a></div></div><div class="footer-bottom"><span>© <span id="currentYear"></span> ESEN Microsoft Club</span><span>MADE BY STUDENTS / TUNISIA</span></div></div></footer>
-  <script src="js/data.js?v=20260917"></script><script src="js/app.js?v=20260917c"></script>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand" href="#home">
+            <img src="assets/images/asset-08.png" width="40" height="40" alt="">
+            <span class="brand-name">ESEN Microsoft Club<small>Build · Learn · Connect · Lead</small></span>
+          </a>
+          <p class="footer-intro">Student-led tech community at ESEN Manouba — bridging tech, innovation, and business.</p>
+          <div class="social-row">
+            <a href="https://www.linkedin.com/company/esen-microsoft-club" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://www.facebook.com/ESENMIC" target="_blank" rel="noopener">Facebook</a>
+            <a href="https://github.com/esen-microsoft-club" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://www.esenmicrosoftclub.tn" target="_blank" rel="noopener">Website</a>
+          </div>
+        </div>
+        <div>
+          <h3>Explore</h3>
+          <a href="#projects">Projects</a>
+          <a href="#events">Events</a>
+          <a href="#community">People</a>
+          <a href="#archive">Archive</a>
+        </div>
+        <div>
+          <h3>Learn</h3>
+          <a href="#resources">Field guide</a>
+          <a href="https://learn.microsoft.com/training/" target="_blank" rel="noopener">Microsoft Learn</a>
+          <a href="https://education.github.com/pack" target="_blank" rel="noopener">Student Pack</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div>
+          <h3>Campus</h3>
+          <a href="http://www.esen.tn/" target="_blank" rel="noopener">ESEN Manouba</a>
+          <a href="https://studentambassadors.microsoft.com/" target="_blank" rel="noopener">Microsoft Learn Student Ambassadors</a>
+          <a href="mailto:contact@emcclub.tn">contact@emcclub.tn</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="currentYear"></span> ESEN Microsoft Club</span>
+        <span>Made by students · Tunisia</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js?v=20260918c"></script>
+  <script src="js/app.js?v=20260918c"></script>
 </body>
 </html>

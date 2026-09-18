@@ -12,7 +12,7 @@ The official website for the ESEN Microsoft Club (EMC): a lightweight community 
 - **Join Us** — department matcher quiz, recruitment timeline, FAQ, and application form
 - **Archive** — filterable, lazy-loaded photo archive with an accessible lightbox
 
-The site remains dependency-free and needs no build step or server. Content is separated into `js/data.js`, behavior into `js/app.js`, styles into `css/styles.css`, and the existing visual assets into `assets/images/`.
+The site remains dependency-free and needs no build step or server. Content is separated into `js/data.js`, behavior into `js/app.js`, styles into `css/styles.css`, and the existing visual assets into `assets/images/`. Typography uses Syne (display), Source Sans 3 (body), and IBM Plex Mono (labels) via Google Fonts.
 
 ## Hosting on GitHub Pages
 
@@ -28,5 +28,3 @@ To update content, edit the arrays in `js/data.js`. Update layout in `index.html
 ## The Join Us form
 
 The membership form posts to Web3Forms, which forwards submissions straight to email — no backend required. The form's access key is embedded in `index.html`; if it ever needs to be regenerated, get a new one at [web3forms.com](https://web3forms.com) and swap the `value` on the hidden `access_key` input.
-
-
