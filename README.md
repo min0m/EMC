@@ -32,5 +32,6 @@ The membership form posts to Web3Forms, which forwards submissions straight to e
 ## Notes
 
 - The page is dark-themed by default but includes a light/dark toggle (saved to the visitor's browser).
+- Typography uses Syne (display), Source Sans 3 (body), and IBM Plex Mono (labels) via Google Fonts.
 - Images are regular files with `loading="lazy"` on below-the-fold media. Replace the placeholder social, team, alumni, and project links with the club's verified URLs before launch.
 - `CNAME` is intentionally unchanged until the club confirms its official domain; `emcclub.tk` should be replaced with an owned `.tn`, `.org`, or GitHub Pages domain before publishing.
