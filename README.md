@@ -29,8 +29,4 @@ To update content, edit the arrays in `js/data.js`. Update layout in `index.html
 
 The membership form posts to Web3Forms, which forwards submissions straight to email — no backend required. The form's access key is embedded in `index.html`; if it ever needs to be regenerated, get a new one at [web3forms.com](https://web3forms.com) and swap the `value` on the hidden `access_key` input.
 
-## Notes
 
-- The page is dark-themed by default but includes a light/dark toggle (saved to the visitor's browser).
-- Images are regular files with `loading="lazy"` on below-the-fold media. Replace the placeholder social, team, alumni, and project links with the club's verified URLs before launch.
-- `CNAME` is intentionally unchanged until the club confirms its official domain; `emcclub.tk` should be replaced with an owned `.tn`, `.org`, or GitHub Pages domain before publishing.
