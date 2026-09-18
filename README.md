@@ -12,7 +12,7 @@ The official website for the ESEN Microsoft Club (EMC): a lightweight community 
 - **Join Us** — department matcher quiz, recruitment timeline, FAQ, and application form
 - **Archive** — filterable, lazy-loaded photo archive with an accessible lightbox
 
-The site remains dependency-free and needs no build step or server. Content is separated into `js/data.js`, behavior into `js/app.js`, styles into `css/styles.css`, and the existing visual assets into `assets/images/`.
+The site remains dependency-free and needs no build step or server. Content is separated into `js/data.js`, behavior into `js/app.js`, styles into `css/styles.css`, and the existing visual assets into `assets/images/`. Typography uses Syne (display), Source Sans 3 (body), and IBM Plex Mono (labels) via Google Fonts.
 
 ## Hosting on GitHub Pages
 
@@ -28,10 +28,3 @@ To update content, edit the arrays in `js/data.js`. Update layout in `index.html
 ## The Join Us form
 
 The membership form posts to Web3Forms, which forwards submissions straight to email — no backend required. The form's access key is embedded in `index.html`; if it ever needs to be regenerated, get a new one at [web3forms.com](https://web3forms.com) and swap the `value` on the hidden `access_key` input.
-
-## Notes
-
-- The page is dark-themed by default but includes a light/dark toggle (saved to the visitor's browser).
-- Typography uses Syne (display), Source Sans 3 (body), and IBM Plex Mono (labels) via Google Fonts.
-- Images are regular files with `loading="lazy"` on below-the-fold media. Replace the placeholder social, team, alumni, and project links with the club's verified URLs before launch.
-- `CNAME` is intentionally unchanged until the club confirms its official domain; `emcclub.tk` should be replaced with an owned `.tn`, `.org`, or GitHub Pages domain before publishing.
