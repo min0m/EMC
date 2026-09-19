@@ -14,13 +14,6 @@ The official website for the ESEN Microsoft Club (EMC): a lightweight community 
 
 The site remains dependency-free and needs no build step or server. Content is separated into `js/data.js`, behavior into `js/app.js`, styles into `css/styles.css`, and the existing visual assets into `assets/images/`. Typography uses Syne (display), Source Sans 3 (body), and IBM Plex Mono (labels) via Google Fonts.
 
-## Hosting on GitHub Pages
-
-1. Create a public GitHub repository.
-2. Upload the repository contents, including the `css`, `js`, and `assets` folders.
-3. Go to **Settings → Pages**, set Source to "Deploy from a branch," pick the `main` branch and `/ (root)` folder, then Save.
-4. After a minute or two, your site is live at `https://yourusername.github.io/your-repo-name/`.
-
 ## Updating the site
 
 To update content, edit the arrays in `js/data.js`. Update layout in `index.html`, behavior in `js/app.js`, and visual styling in `css/styles.css`. The live site updates automatically within a minute of each commit.
