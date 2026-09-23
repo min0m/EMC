@@ -104,10 +104,6 @@ function renderProjects() {
           <h3>${escapeHTML(project.title)}</h3>
           <p>${escapeHTML(project.pitch)}</p>
           <div class="pill-row">${safeArray(project.stack).map(item => `<span class="pill">${escapeHTML(item)}</span>`).join('')}</div>
-          <div class="project-links">
-            <a href="${escapeHTML(project.repo || '#')}" target="_blank" rel="noopener">Repository</a>
-            <a href="${escapeHTML(project.demo || '#')}" target="_blank" rel="noopener">Live / Guide</a>
-          </div>
         </div>
       </article>
     `).join('');
@@ -175,15 +171,19 @@ function renderEvents() {
     list.innerHTML = '<div class="empty-state" role="status"><strong>No events are scheduled yet.</strong><span>Follow the club channels for the next session announcement.</span></div>';
     return;
   }
-  list.innerHTML = events.map((event, index) => `
+  list.innerHTML = events.map((event, index) => {
+    const isTBA = !event.start;
+    return `
     <article class="event-card">
       <div class="event-date">
         <strong>${escapeHTML(event.day || '--')}</strong>
         <span>${escapeHTML(event.month || '')}</span>
       </div>
       <div>
-        <span class="eyebrow">${index === events.length - 1 ? 'Flagship' : 'Upcoming'}</span>
-        <span class="countdown" data-start="${formatEventDate(event.start)}"></span>
+        <span class="eyebrow">${events.length === 1 ? 'Our focus' : (index === events.length - 1 ? 'Flagship' : 'Upcoming')}</span>
+        ${isTBA
+          ? '<span class="countdown tba">Date to be announced</span>'
+          : `<span class="countdown" data-start="${formatEventDate(event.start)}"></span>`}
         <h3>${escapeHTML(event.title)}</h3>
         <p class="muted">${escapeHTML(event.description)}</p>
         <div class="event-detail">
@@ -192,15 +192,18 @@ function renderEvents() {
           <span>${escapeHTML(event.speaker)}</span>
         </div>
         <div class="event-actions">
-          <a class="button button-primary button-small" href="#join-us" data-rsvp="${escapeHTML(event.title)}">RSVP</a>
-          <button class="button button-secondary button-small calendar-button" type="button" data-event="${index}">Add to calendar</button>
+          <a class="button button-primary button-small" href="#join-us" data-rsvp="${escapeHTML(event.title)}">Get notified</a>
+          ${isTBA ? '' : `<button class="button button-secondary button-small calendar-button" type="button" data-event="${index}">Add to calendar</button>`}
         </div>
       </div>
     </article>
-  `).join('');
+  `;
+  }).join('');
   updateCountdowns();
   clearInterval(renderEvents.timer);
-  renderEvents.timer = setInterval(updateCountdowns, 60000);
+  if ($$('.countdown[data-start]', list).length) {
+    renderEvents.timer = setInterval(updateCountdowns, 60000);
+  }
   $$('.calendar-button', list).forEach(button => {
     button.addEventListener('click', () => createCalendarEvent(events[Number(button.dataset.event)]));
   });
@@ -208,35 +211,108 @@ function renderEvents() {
     button.addEventListener('click', () => {
       const motivation = $('#motivation');
       if (motivation) {
-        motivation.value = `I would like to RSVP for ${button.dataset.rsvp}.`;
-        showToast('RSVP noted — finish the application when you are ready.');
+        motivation.value = `I would like to join the ${button.dataset.rsvp}.`;
+        showToast('Noted — we will keep you posted on the date.');
       }
     });
   });
   observeReveals(list);
 }
 
-function renderTeam() {
-  const grid = $('#teamGrid');
-  if (!grid) return;
+function isPlaceholderLink(url) {
+  const value = String(url || '').trim().replace(/\/+$/, '');
+  return !value || value === 'https://www.linkedin.com' || value === 'https://github.com';
+}
+
+function renderBoardCard(member) {
+  const social = [
+    !isPlaceholderLink(member.linkedin)
+      ? `<a href="${escapeHTML(member.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : '',
+    !isPlaceholderLink(member.github)
+      ? `<a href="${escapeHTML(member.github)}" target="_blank" rel="noopener">GitHub</a>` : ''
+  ].filter(Boolean).join('');
+  const photo = member.photo
+    ? `<img src="${escapeHTML(member.photo)}" alt="${escapeHTML(member.name)}" width="400" height="533" loading="lazy">`
+    : `<span class="board-monogram" aria-hidden="true">${escapeHTML(member.initials)}</span>`;
+  return `
+    <article class="board-card">
+      <div class="board-photo">
+        ${photo}
+        <span class="board-role">${escapeHTML(member.role)}</span>
+      </div>
+      <div class="board-body">
+        <h3>${escapeHTML(member.name)}</h3>
+        <p>${escapeHTML(member.bio)}</p>
+        ${social ? `<div class="social-mini">${social}</div>` : ''}
+      </div>
+    </article>`;
+}
+
+function initBoard() {
+  const track = $('#boardTrack');
+  const dotsWrap = $('#boardDots');
+  const prev = $('#boardPrev');
+  const next = $('#boardNext');
+  if (!track || !dotsWrap || !prev || !next) return;
   const team = safeArray(data.team);
   if (!team.length) {
-    grid.innerHTML = '<div class="empty-state" role="status"><strong>The team directory is between updates.</strong><span>Meet the crew at the next open house.</span></div>';
+    track.innerHTML = '<div class="empty-state" role="status"><strong>The board directory is between updates.</strong><span>Meet the crew at the next open house.</span></div>';
+    prev.disabled = true;
+    next.disabled = true;
     return;
   }
-  grid.innerHTML = team.map(member => `
-    <article class="team-card">
-      <div class="avatar" aria-hidden="true">${escapeHTML(member.initials)}</div>
-      <span class="team-role">${escapeHTML(member.role)}</span>
-      <h3>${escapeHTML(member.name)}</h3>
-      <p>${escapeHTML(member.bio)}</p>
-      <div class="social-mini">
-        <a href="${escapeHTML(member.linkedin || '#')}" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="${escapeHTML(member.github || '#')}" target="_blank" rel="noopener">GitHub</a>
+  const isLeadership = member => member.role === 'President' || member.role === 'Vice President';
+  const isManager = member => /manager/i.test(member.role);
+  const operations = team.filter(member => !isLeadership(member) && !isManager(member));
+  const groups = [
+    { name: 'Leadership', members: team.filter(isLeadership) },
+    { name: 'Departments', members: team.filter(isManager) }
+  ];
+  if (operations.length) groups.push({ name: 'Operations', members: operations });
+
+  const slides = groups.filter(group => group.members.length);
+  const columnClass = slide => slide.members.length === 1
+    ? 'has-1'
+    : (slide.members.length === 2 ? 'has-2' : 'has-4');
+
+  track.innerHTML = slides.map((slide, index) => `
+    <div class="board-slide ${columnClass(slide)}" aria-label="${escapeHTML(slide.name)}">
+      <div class="board-slide-head">
+        <span class="board-slide-index" aria-hidden="true">${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}</span>
+        <h3 class="board-slide-title">${escapeHTML(slide.name)}</h3>
+        <span class="board-slide-count">${slide.members.length} ${slide.members.length === 1 ? 'member' : 'members'}</span>
       </div>
-    </article>
+      <div class="board-cards">${slide.members.map(renderBoardCard).join('')}</div>
+    </div>
   `).join('');
-  observeReveals(grid);
+
+  dotsWrap.innerHTML = slides.map((slide, index) =>
+    `<button class="board-dot" type="button" data-page="${index}" aria-label="Go to ${escapeHTML(slide.name)} — page ${index + 1}"></button>`
+  ).join('');
+
+  const dots = $$('.board-dot', dotsWrap);
+  const slideEls = $$('.board-slide', track);
+  let current = 0;
+
+  const setPage = index => {
+    current = (index + slides.length) % slides.length;
+    track.style.transform = `translateX(${-current * 100}%)`;
+    slideEls.forEach((el, i) => {
+      const active = i === current;
+      el.classList.toggle('is-active', active);
+      el.setAttribute('aria-hidden', String(!active));
+      if (active) el.removeAttribute('inert');
+      else el.setAttribute('inert', '');
+    });
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+    prev.disabled = slides.length <= 1;
+    next.disabled = slides.length <= 1;
+  };
+
+  prev.addEventListener('click', () => setPage(current - 1));
+  next.addEventListener('click', () => setPage(current + 1));
+  dots.forEach(dot => dot.addEventListener('click', () => setPage(Number(dot.dataset.page))));
+  setPage(0);
 }
 
 function renderGallery() {
@@ -284,6 +360,7 @@ function openGallery(item) {
   $('#modalTitle', modal).textContent = item[1];
   modal.classList.add('visible');
   modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
   $('#modalClose').focus();
 }
 
@@ -291,6 +368,7 @@ function closeGallery() {
   const modal = $('#galleryModal');
   modal.classList.remove('visible');
   modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
   if (lastFocusedElement) lastFocusedElement.focus();
 }
 
@@ -439,6 +517,129 @@ function initForm() {
   });
 }
 
+function shellWrite(screen, text, className = '') {
+  const line = document.createElement('div');
+  line.className = `terminal-line${className ? ` ${className}` : ''}`;
+  line.textContent = text;
+  screen.appendChild(line);
+  screen.scrollTop = screen.scrollHeight;
+}
+
+function initShell() {
+  const screen = $('#terminalScreen');
+  const form = $('#terminalForm');
+  const input = $('#terminalCmd');
+  if (!screen || !form || !input) return;
+
+  const history = [];
+  let historyIndex = -1;
+
+  const banner = [
+    'ESEN Microsoft Club · interactive shell',
+    `Members connected: ${data.team.length} · Focus event: ${data.events[0] ? data.events[0].title : 'TBA'}`,
+    'Type "help" to see what I can do.'
+  ];
+  banner.forEach(line => shellWrite(screen, line));
+
+  const responses = {
+    help() {
+      const rows = [
+        ['help', 'show this menu'],
+        ['about', 'what EMC is about'],
+        ['events', 'next club event'],
+        ['team', 'who runs the club'],
+        ['join', 'how to get involved'],
+        ['motto', 'our motto'],
+        ['whoami', 'who you are here'],
+        ['clear', 'clear the screen']
+      ];
+      const width = Math.max(...rows.map(r => r[0].length));
+      rows.forEach(row => shellWrite(screen, `  ${row[0].padEnd(width)}   ${row[1]}`, 'dim'));
+    },
+    about() {
+      shellWrite(screen, 'EMC is ESEN\'s student-led technology community.', '');
+      shellWrite(screen, 'We run hands-on workshops (Cloud, AI, Dev), hackathons, and');
+      shellWrite(screen, 'real portfolio projects. No experience required — curiosity is enough.', '');
+      shellWrite(screen, 'Departments: Project · Marketing · Talents · Business', 'hl');
+    },
+    events() {
+      const next = (data.events || [])[0];
+      if (!next) { shellWrite(screen, 'No events scheduled yet. Check back soon.', 'err'); return; }
+      shellWrite(screen, `NEXT ON THE CALENDAR — ${next.title.toUpperCase()}`, 'ok');
+      shellWrite(screen, `  Date : ${next.month} ${next.day}, ${next.time}`, '');
+      shellWrite(screen, `  Place: ${next.place}`, '');
+      shellWrite(screen, `  By   : ${next.speaker}`, '');
+      shellWrite(screen, `  ${next.description}`, 'dim');
+    },
+    team() {
+      const team = data.team || [];
+      if (!team.length) { shellWrite(screen, 'No team members found.', 'err'); return; }
+      const board = team.map(member => `  ${member.role.padEnd(18)} ${member.name}`).join('\n');
+      shellWrite(screen, `THE BOARD (${team.length})`, 'ok');
+      shellWrite(screen, board, '');
+    },
+    join() {
+      shellWrite(screen, 'Applications are open for Fall 2026.', 'ok');
+      shellWrite(screen, 'Find the right department with the quiz, then hit "Apply to join".', '');
+      shellWrite(screen, 'Jump: scroll to the join section — or type a department you like:', '');
+      shellWrite(screen, '  project · marketing · talents · business', 'hl');
+    },
+    motto() {
+      shellWrite(screen, '“Build, innovate, and grow with us.”', 'warn');
+      shellWrite(screen, '— learn by doing, launch real careers.', 'dim');
+    },
+    whoami() {
+      shellWrite(screen, 'guest', '');
+      shellWrite(screen, 'A future EMC builder, hopefully. → #join-us', 'hl');
+    },
+    clear() {
+      screen.innerHTML = '';
+    }
+  };
+
+  const commands = Object.keys(responses);
+
+  function runCommand(raw) {
+    const trimmed = raw.trim();
+    shellWrite(screen, `guest@emc:~$ ${trimmed}`, 'cmd');
+    if (!trimmed) return;
+    const [name, ...args] = trimmed.toLowerCase().split(/\s+/);
+    const handler = responses[name];
+    if (handler) handler(...args);
+    else shellWrite(screen, `command not found: ${name}. Try "help".`, 'err');
+  }
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const value = input.value;
+    if (value.trim()) history.push(value);
+    historyIndex = history.length;
+    runCommand(value);
+    input.value = '';
+  });
+
+  input.addEventListener('keydown', event => {
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (!history.length) return;
+      historyIndex = Math.max(0, historyIndex - 1);
+      input.value = history[historyIndex];
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      if (historyIndex < history.length) historyIndex += 1;
+      input.value = historyIndex < history.length ? history[historyIndex] : '';
+    } else if (event.key === 'Tab') {
+      event.preventDefault();
+      const typed = input.value.toLowerCase().trim();
+      if (!typed) return;
+      const matches = commands.filter(command => command.startsWith(typed));
+      if (matches.length === 1) input.value = matches[0];
+    }
+  });
+
+  input.focus();
+}
+
 const REVEAL_SELECTOR = [
   '.hero-content > *',
   '.section-heading',
@@ -450,12 +651,10 @@ const REVEAL_SELECTOR = [
   '.project-card',
   '.event-card',
   '.events-aside',
-  '.team-card',
-  '.alumni-block',
-  '.testimonial',
-  '.pulse-block',
+  '.board',
   '.resource-card',
   '.perks-block',
+  '.terminal',
   '.join-intro > *',
   '.application-card',
   '.gallery-card',
@@ -494,10 +693,16 @@ function observeReveals(root = document) {
     el.dataset.revealReady = 'true';
     el.classList.add('reveal');
 
-    if (el.matches('.events-aside, .application-card, .alumni-block')) {
+    if (el.matches('.events-aside, .application-card')) {
       el.classList.add('reveal-left');
     } else if (el.matches('.hero-content > *, .stat-row > div')) {
       el.classList.add('reveal-scale');
+    } else {
+      const section = el.closest('section[id]');
+      if (section) {
+        const sectionIndex = $$('main section[id]').indexOf(section);
+        el.classList.add(sectionIndex % 2 === 0 ? 'reveal-right' : 'reveal-left');
+      }
     }
 
     const parent = el.parentElement;
@@ -511,6 +716,141 @@ function observeReveals(root = document) {
   });
 }
 
+function initScrollProgress() {
+  const bar = $('#scrollProgress');
+  if (!bar) return;
+  const update = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const progress = max > 0 ? Math.min(doc.scrollTop / max, 1) : 0;
+    bar.style.transform = `scaleX(${progress})`;
+  };
+  update();
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { update(); ticking = false; });
+  }, { passive: true });
+}
+
+function initHeaderShadow() {
+  const header = $('.site-header');
+  if (!header) return;
+  const update = () => header.classList.toggle('scrolled', window.scrollY > 12);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+}
+
+function initCounters() {
+  const counters = $$('[data-count]');
+  if (!counters.length) return;
+  const finish = el => {
+    const pad = Number(el.dataset.pad || 0);
+    const value = Number(el.dataset.count);
+    const text = pad ? String(value).padStart(pad, '0') : String(value);
+    el.textContent = text + (el.dataset.suffix || '');
+  };
+  if (prefersReducedMotion() || !('IntersectionObserver' in window)) {
+    counters.forEach(finish);
+    return;
+  }
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      const el = entry.target;
+      const target = Number(el.dataset.count);
+      const pad = Number(el.dataset.pad || 0);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1100;
+      const start = performance.now();
+      const tick = now => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.round(target * eased);
+        el.textContent = String(pad ? String(value).padStart(pad, '0') : value) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(el => observer.observe(el));
+}
+
+function initHeroParallax() {
+  const media = $('.hero-media');
+  if (!media || prefersReducedMotion() || window.innerWidth < 768) return;
+  let ticking = false;
+  const update = () => {
+    const y = Math.min(window.scrollY * 0.16, 90);
+    media.style.transform = `translate3d(0, ${y}px, 0)`;
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  update();
+}
+
+function initSlideRail() {
+  const rail = $('#slideRail');
+  if (!rail) return;
+  const sections = $$('main section[id]');
+  if (!sections.length) return;
+  rail.innerHTML = sections.map(section => {
+    const eyebrow = section.querySelector('.eyebrow');
+    const label = eyebrow
+      ? eyebrow.textContent.trim()
+      : (section.id === 'home' ? 'Intro' : section.id);
+    return `
+      <button class="slide-rail-dot" type="button" data-rail-target="${section.id}" aria-label="Go to ${escapeHTML(label)}">
+        <span class="slide-rail-label">${escapeHTML(label)}</span>
+      </button>`;
+  }).join('');
+  const dots = $$('.slide-rail-dot', rail);
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        dots.forEach(dot => dot.classList.toggle('active', dot.dataset.railTarget === entry.target.id));
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    sections.forEach(section => observer.observe(section));
+  }
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const target = document.getElementById(dot.dataset.railTarget);
+      if (target) target.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+}
+
+function initDeckKeys() {
+  document.addEventListener('keydown', event => {
+    const down = event.key === 'ArrowDown' || event.key === 'PageDown';
+    const up = event.key === 'ArrowUp' || event.key === 'PageUp';
+    if (!down && !up) return;
+    const active = document.activeElement;
+    if (active && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName)) return;
+    if ($('#galleryModal')?.classList.contains('visible')) return;
+    const sections = $$('main section[id]');
+    if (!sections.length) return;
+    event.preventDefault();
+    const tops = sections.map(section => section.getBoundingClientRect().top + window.scrollY);
+    const band = 96;
+    let current = sections.length - 1;
+    while (current > 0 && tops[current] - band > window.scrollY) current -= 1;
+    let next;
+    if (down) next = current < sections.length - 1 ? current + 1 : -1;
+    else next = current > 0 ? current - 1 : -1;
+    if (next === -1) return;
+    sections[next].scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+  });
+}
+
 function initReveal() {
   observeReveals(document);
 }
@@ -518,13 +858,20 @@ function initReveal() {
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavigation();
+  initSlideRail();
+  initDeckKeys();
   renderProjects();
   renderEvents();
-  renderTeam();
+  initBoard();
   renderGallery();
   initQuiz();
   initFaq();
   initForm();
+  initShell();
+  initScrollProgress();
+  initHeaderShadow();
+  initCounters();
+  initHeroParallax();
   initReveal();
   const year = $('#currentYear');
   if (year) year.textContent = String(new Date().getFullYear());
@@ -533,8 +880,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.target.id === 'galleryModal') closeGallery();
   });
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && $('#galleryModal')?.classList.contains('visible')) {
+    const modal = $('#galleryModal');
+    if (event.key === 'Escape' && modal?.classList.contains('visible')) {
       closeGallery();
+      return;
+    }
+    if (event.key === 'Tab' && modal?.classList.contains('visible')) {
+      const focusable = $$('button, [href], [tabindex]:not([tabindex="-1"])', modal)
+        .filter(el => el.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        last.focus();
+        event.preventDefault();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        first.focus();
+        event.preventDefault();
+      }
     }
   });
 });
