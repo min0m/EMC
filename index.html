@@ -7,16 +7,28 @@
   <meta name="description" content="Student-led tech community at ESEN Manouba: workshops (Cloud, AI, Dev), hackathons, portfolio projects, and the MLSA program community. No experience required.">
   <meta name="theme-color" content="#12151a">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ESEN Microsoft Club">
+  <meta property="og:url" content="https://www.esenmicrosoftclub.tn/">
   <meta property="og:title" content="ESEN Microsoft Club — Build, innovate, and grow with us">
   <meta property="og:description" content="A student-led tech community at ESEN bridging tech, innovation, and business.">
-  <meta property="og:image" content="assets/images/asset-02.jpg">
+  <meta property="og:image" content="https://www.esenmicrosoftclub.tn/assets/images/asset-02.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ESEN Microsoft Club community session">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ESEN Microsoft Club — Build, innovate, and grow with us">
+  <meta name="twitter:description" content="A student-led tech community at ESEN bridging tech, innovation, and business.">
+  <meta name="twitter:image" content="https://www.esenmicrosoftclub.tn/assets/images/asset-02.jpg">
+  <link rel="canonical" href="https://www.esenmicrosoftclub.tn/">
   <link rel="icon" href="assets/images/asset-01.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=20260918c">
+  <link rel="stylesheet" href="css/styles.css?v=20260923d">
 </head>
 <body>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <nav class="slide-rail" id="slideRail" aria-label="Slide navigation"></nav>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -31,6 +43,7 @@
         <a href="#events">Events</a>
         <a href="#community">People</a>
         <a href="#resources">Learn</a>
+        <a href="#shell">Shell</a>
       </nav>
       <div class="nav-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme" title="Toggle theme">
@@ -47,6 +60,7 @@
         <a href="#events">Events</a>
         <a href="#community">People</a>
         <a href="#resources">Learn</a>
+        <a href="#shell">Shell</a>
         <a href="#archive">Archive</a>
         <a href="#faq">FAQ</a>
         <a class="mobile-join" href="#join-us">Join EMC</a>
@@ -71,6 +85,14 @@
         </div>
       </div>
     </section>
+
+    <!-- Marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span class="marquee-group">Workshops&nbsp;✦&nbsp;Hackathons&nbsp;✦&nbsp;Cloud&nbsp;✦&nbsp;AI&nbsp;✦&nbsp;Dev&nbsp;✦&nbsp;Portfolio Projects&nbsp;✦&nbsp;Open Source&nbsp;✦&nbsp;Design&nbsp;✦&nbsp;Business&nbsp;✦&nbsp;Community&nbsp;✦&nbsp;</span>
+        <span class="marquee-group" aria-hidden="true">Workshops&nbsp;✦&nbsp;Hackathons&nbsp;✦&nbsp;Cloud&nbsp;✦&nbsp;AI&nbsp;✦&nbsp;Dev&nbsp;✦&nbsp;Portfolio Projects&nbsp;✦&nbsp;Open Source&nbsp;✦&nbsp;Design&nbsp;✦&nbsp;Business&nbsp;✦&nbsp;Community&nbsp;✦&nbsp;</span>
+      </div>
+    </div>
 
     <!-- About: what / who / why -->
     <section class="section about-section" id="about">
@@ -141,15 +163,15 @@
 
         <dl class="stat-row">
           <div>
-            <dt>50+</dt>
+            <dt data-count="50" data-suffix="+">50+</dt>
             <dd>Events in our first mandate</dd>
           </div>
           <div>
-            <dt>04</dt>
+            <dt data-count="4" data-pad="2">04</dt>
             <dd>Departments</dd>
           </div>
           <div>
-            <dt>07</dt>
+            <dt data-count="7" data-pad="2">07</dt>
             <dd>Core board roles</dd>
           </div>
           <div>
@@ -168,7 +190,7 @@
             <span class="eyebrow">Projects</span>
             <h2>Work with receipts.</h2>
           </div>
-          <p class="heading-note">Student-built tools and experiments. Filter by stack, open a repo, or join the next sprint.</p>
+          <p class="heading-note">Student-built tools and experiments. Filter by stack and see what the club is shipping.</p>
         </div>
         <div class="section-toolbar">
           <div class="filter-tabs" role="group" aria-label="Filter projects">
@@ -208,78 +230,29 @@
       </div>
     </section>
 
-    <!-- Community -->
-    <section class="section community-section" id="community">
+    <!-- Board -->
+    <section class="section board-section" id="community">
       <div class="container">
         <div class="section-heading">
           <div>
             <span class="eyebrow">Our core team</span>
             <h2>Meet the board.</h2>
           </div>
-          <p class="heading-note">The people leading this chapter — strategy, projects, talents, marketing, business, and events.</p>
+          <p class="heading-note">One page per group — leadership, departments, and operations. Use the arrows to flip.</p>
         </div>
-        <div class="team-grid" id="teamGrid"></div>
-
-        <div class="community-lower">
-          <div class="alumni-block">
-            <span class="eyebrow">Alumni</span>
-            <h3>Where members go next</h3>
-            <p>The club is a starting point for internships, first products, and the people you keep learning with.</p>
-            <ul class="alumni-list">
-              <li>
-                <span class="alumni-avatar" aria-hidden="true">IS</span>
-                <div>
-                  <strong>Ines S.</strong>
-                  <small>Software Engineer · Berlin</small>
-                </div>
-              </li>
-              <li>
-                <span class="alumni-avatar" aria-hidden="true">KA</span>
-                <div>
-                  <strong>Kais A.</strong>
-                  <small>Cloud consultant · Tunis</small>
-                </div>
-              </li>
-              <li>
-                <span class="alumni-avatar" aria-hidden="true">RB</span>
-                <div>
-                  <strong>Rahma B.</strong>
-                  <small>Product designer · Paris</small>
-                </div>
-              </li>
-            </ul>
+        <div class="board" id="board">
+          <div class="board-window" id="boardWindow">
+            <div class="board-track" id="boardTrack"></div>
           </div>
-          <blockquote class="testimonial">
-            <p>“EMC gave me a place to try things before I felt ready. The first project became a portfolio piece; the people became a network.”</p>
-            <footer>
-              <span class="testimonial-avatar" aria-hidden="true">MK</span>
-              <span>
-                <strong>Meriem K.</strong>
-                <small>EMC alumna · Class of 2024</small>
-              </span>
-            </footer>
-          </blockquote>
-        </div>
-
-        <div class="pulse-block">
-          <div class="pulse-head">
-            <h3>This week at EMC</h3>
-            <span class="pulse-status"><i aria-hidden="true"></i> Live updates</span>
+          <div class="board-controls">
+            <button class="board-arrow" id="boardPrev" type="button" aria-label="Previous page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+            </button>
+            <div class="board-dots" id="boardDots"></div>
+            <button class="board-arrow" id="boardNext" type="button" aria-label="Next page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+            </button>
           </div>
-          <ul class="pulse-items">
-            <li>
-              <span class="pulse-mark">P</span>
-              <p><strong>Project</strong> is preparing builds ahead of the Megatronix hackathon. <small>This month · contributors welcome</small></p>
-            </li>
-            <li>
-              <span class="pulse-mark accent">T</span>
-              <p><strong>Talents</strong> is running October onboarding and soft-skills sessions. <small>Now · new members</small></p>
-            </li>
-            <li>
-              <span class="pulse-mark warm">B</span>
-              <p><strong>Business</strong> is coordinating partnerships for SDG Soft with Enactus ESEN. <small>November · joint initiative</small></p>
-            </li>
-          </ul>
         </div>
       </div>
     </section>
@@ -485,6 +458,31 @@
       </div>
     </section>
 
+    <!-- Interactive shell -->
+    <section class="section shell-section" id="shell">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Interactive shell</span>
+            <h2>Type a command.</h2>
+          </div>
+          <p class="heading-note">A tiny CLI for the curious. Try <code>help</code>, <code>about</code>, <code>events</code>, <code>team</code>, <code>join</code>, or <code>motto</code>.</p>
+        </div>
+        <div class="terminal" role="application" aria-label="EMC interactive shell">
+          <div class="terminal-bar">
+            <span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="terminal-title">guest@emc ~/shell</span>
+            <span class="terminal-safe" aria-hidden="true">●</span>
+          </div>
+          <div class="terminal-screen" id="terminalScreen" aria-live="polite"></div>
+          <form class="terminal-input" id="terminalForm" autocomplete="off">
+            <span class="terminal-prompt" aria-hidden="true">guest@emc:~$</span>
+            <input id="terminalCmd" type="text" aria-label="Type a shell command" spellcheck="false" autocomplete="off">
+          </form>
+        </div>
+      </div>
+    </section>
+
     <!-- Archive -->
     <section class="section archive-section" id="archive">
       <div class="container">
@@ -593,6 +591,7 @@
           <a href="#projects">Projects</a>
           <a href="#events">Events</a>
           <a href="#community">People</a>
+          <a href="#shell">Shell</a>
           <a href="#archive">Archive</a>
         </div>
         <div>
@@ -616,7 +615,7 @@
     </div>
   </footer>
 
-  <script src="js/data.js?v=20260918c"></script>
-  <script src="js/app.js?v=20260918c"></script>
+  <script src="js/data.js?v=20260923d"></script>
+  <script src="js/app.js?v=20260923d"></script>
 </body>
 </html>
