@@ -811,6 +811,55 @@ h3 { font-size: 1.25rem; margin-bottom: var(--s-3); }
   font-size: 0.95rem;
   margin-bottom: var(--s-4);
 }
+.rsvp-cta { margin-top: var(--s-3); }
+
+/* ——— Business RSVP ——— */
+.business-rsvp {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: var(--s-8);
+  align-items: center;
+  margin-top: var(--s-8);
+  padding: var(--s-7);
+  background: color-mix(in srgb, var(--signal) 6%, var(--bg));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+.business-intro h3 { font-size: 1.6rem; margin: var(--s-3) 0; }
+.business-intro .lead { margin-bottom: var(--s-5); }
+.business-perks {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0 0 var(--s-5);
+}
+.business-perks li {
+  position: relative;
+  padding-left: var(--s-5);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.business-perks li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  color: var(--signal);
+}
+.business-note {
+  margin: 0;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.business-form-card {
+  padding: var(--s-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.business-form-card .submit-button { width: 100%; }
 
 /* ——— Board (people) ——— */
 .board-section { background: color-mix(in srgb, var(--blue) 4%, var(--bg)); }
@@ -1231,6 +1280,7 @@ h3 { font-size: 1.25rem; margin-bottom: var(--s-3); }
   pointer-events: none;
 }
 #recruitmentForm.hidden { display: none; }
+form.hidden { display: none; }
 .success-state {
   display: none;
   padding: var(--s-7) var(--s-4);
@@ -1711,6 +1761,7 @@ h3 { font-size: 1.25rem; margin-bottom: var(--s-3); }
   .event-list, .events-aside { grid-column: auto; }
   .events-aside { position: static; }
   .board-slide.has-4 .board-cards { grid-template-columns: repeat(2, 1fr); }
+  .business-rsvp { grid-template-columns: 1fr; gap: var(--s-6); padding: var(--s-6); }
   .resource-grid { grid-template-columns: repeat(2, 1fr); }
   .perks-block { grid-template-columns: 1fr; gap: var(--s-4); }
   .join-layout { grid-template-columns: 1fr; gap: var(--s-6); }
@@ -1759,6 +1810,7 @@ h3 { font-size: 1.25rem; margin-bottom: var(--s-3); }
   .event-card { grid-template-columns: 56px 1fr; gap: var(--s-3); padding: var(--s-4); }
   .event-date strong { font-size: 1.5rem; }
   .application-card { padding: var(--s-5); }
+  .business-rsvp { margin-top: var(--s-5); padding: var(--s-5); }
   .footer-top { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; }
   .toast { right: var(--s-3); left: var(--s-3); bottom: var(--s-3); max-width: none; }

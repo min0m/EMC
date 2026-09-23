@@ -195,6 +195,7 @@ function renderEvents() {
           <a class="button button-primary button-small" href="#join-us" data-rsvp="${escapeHTML(event.title)}">Get notified</a>
           ${isTBA ? '' : `<button class="button button-secondary button-small calendar-button" type="button" data-event="${index}">Add to calendar</button>`}
         </div>
+        <a class="text-link rsvp-cta" href="#business-reserve">Business owners — reserve a spot <span aria-hidden="true">→</span></a>
       </div>
     </article>
   `;
@@ -431,25 +432,31 @@ function initFaq() {
   });
 }
 
-function initForm() {
-  const form = $('#recruitmentForm');
-  if (!form) return;
-  const fields = ['fullname', 'email', 'level', 'department'];
-  const submit = $('#submitApplication');
-  const status = $('#formStatus');
+function bindAjaxForm(formId, options) {
+  const form = $(formId);
+  if (!form) return null;
+  const fields = options.fields;
+  const submit = $(options.submitEl);
+  const status = $(options.statusEl);
+  const success = $(options.successEl);
+  const reset = options.resetEl ? $(options.resetEl) : null;
+  const messages = options.messages;
 
-  const validate = () => fields.reduce((valid, id) => {
-    const input = $(`#${id}`);
+  const validate = () => fields.reduce((valid, field) => {
+    const input = $(`#${field.id}`);
     const group = input.closest('.form-group');
-    const invalid = !input.value.trim() || (id === 'email' && !input.validity.valid);
+    const value = input.value.trim();
+    let invalid = !value;
+    if (!invalid && field.type === 'email') invalid = !input.validity.valid;
+    if (!invalid && field.type === 'phone') invalid = !/^\+?[()\d][()\d\s.-]{5,19}$/.test(value);
     group.classList.toggle('has-error', invalid);
     input.setAttribute('aria-invalid', String(invalid));
     return valid && !invalid;
   }, true);
 
-  fields.forEach(id => {
-    $(`#${id}`).addEventListener('input', () => {
-      const input = $(`#${id}`);
+  fields.forEach(field => {
+    const input = $(`#${field.id}`);
+    input.addEventListener('input', () => {
       input.closest('.form-group').classList.remove('has-error');
       input.setAttribute('aria-invalid', 'false');
       if (status) status.textContent = '';
@@ -461,19 +468,18 @@ function initForm() {
     if (!validate()) {
       if (status) {
         status.className = 'form-status error';
-        status.textContent = 'Please complete the highlighted fields before sending.';
+        status.textContent = messages.invalid;
       }
-      showToast('Please complete the highlighted fields.');
-      const firstError = $('.form-group.has-error .form-input, .form-group.has-error .form-select');
-      firstError?.focus();
+      showToast(messages.invalid);
+      $('.form-group.has-error .form-input, .form-group.has-error .form-select', form)?.focus();
       return;
     }
     if ($('[name="botcheck"]', form)?.checked) return;
     submit.disabled = true;
-    submit.textContent = 'Sending…';
+    submit.textContent = messages.buttonSending;
     if (status) {
       status.className = 'form-status';
-      status.textContent = 'Sending your application…';
+      status.textContent = messages.sending;
     }
     try {
       const controller = new AbortController();
@@ -488,32 +494,81 @@ function initForm() {
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message || 'Submission failed');
       form.classList.add('hidden');
-      $('#successState').classList.add('visible');
-      showToast('Application received — check your inbox.');
+      if (success) success.classList.add('visible');
+      showToast(messages.ok);
     } catch (error) {
       submit.disabled = false;
-      submit.textContent = 'Send application';
+      submit.textContent = messages.submitIdle;
       if (status) {
         status.className = 'form-status error';
-        status.textContent = error.name === 'AbortError'
-          ? 'The request timed out. Please try again.'
-          : 'We could not send that just now. Please try again or email the club directly.';
+        status.textContent = error.name === 'AbortError' ? messages.timeout : messages.network;
       }
     }
   });
 
-  $('#resetForm')?.addEventListener('click', () => {
-    form.reset();
-    fields.forEach(id => {
-      const input = $(`#${id}`);
-      input.closest('.form-group').classList.remove('has-error');
-      input.setAttribute('aria-invalid', 'false');
+  if (reset) {
+    reset.addEventListener('click', () => {
+      form.reset();
+      fields.forEach(field => {
+        const input = $(`#${field.id}`);
+        input.closest('.form-group').classList.remove('has-error');
+        input.setAttribute('aria-invalid', 'false');
+      });
+      form.classList.remove('hidden');
+      if (success) success.classList.remove('visible');
+      submit.disabled = false;
+      submit.textContent = messages.submitIdle;
+      if (status) status.textContent = '';
     });
-    form.classList.remove('hidden');
-    $('#successState').classList.remove('visible');
-    submit.disabled = false;
-    submit.textContent = 'Send application';
-    if (status) status.textContent = '';
+  }
+  return form;
+}
+
+function initForm() {
+  bindAjaxForm('#recruitmentForm', {
+    fields: [
+      { id: 'fullname', type: '' },
+      { id: 'email', type: 'email' },
+      { id: 'level', type: '' },
+      { id: 'department', type: '' }
+    ],
+    submitEl: '#submitApplication',
+    statusEl: '#formStatus',
+    successEl: '#successState',
+    resetEl: '#resetForm',
+    messages: {
+      invalid: 'Please complete the highlighted fields before sending.',
+      sending: 'Sending your application…',
+      buttonSending: 'Sending…',
+      ok: 'Application received — check your inbox.',
+      timeout: 'The request timed out. Please try again.',
+      network: 'We could not send that just now. Please try again or email the club directly.',
+      submitIdle: 'Send application'
+    }
+  });
+}
+
+function initBusinessForm() {
+  bindAjaxForm('#businessForm', {
+    fields: [
+      { id: 'bizName', type: '' },
+      { id: 'bizBusiness', type: '' },
+      { id: 'bizEmail', type: 'email' },
+      { id: 'bizPhone', type: 'phone' }
+    ],
+    submitEl: '#submitBusiness',
+    statusEl: '#businessStatus',
+    successEl: '#businessSuccess',
+    resetEl: '#businessReset',
+    messages: {
+      invalid: 'Please complete the highlighted fields before reserving.',
+      sending: 'Reserving your spot…',
+      buttonSending: 'Reserving…',
+      ok: 'Spot reserved — we will contact you about Integration Day.',
+      timeout: 'The request timed out. Please try again.',
+      network: 'We could not send that just now. Please try again or email the club directly.',
+      submitIdle: 'Reserve a place'
+    }
   });
 }
 
@@ -651,6 +706,7 @@ const REVEAL_SELECTOR = [
   '.project-card',
   '.event-card',
   '.events-aside',
+  '.business-rsvp',
   '.board',
   '.resource-card',
   '.perks-block',
@@ -867,6 +923,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuiz();
   initFaq();
   initForm();
+  initBusinessForm();
   initShell();
   initScrollProgress();
   initHeaderShadow();
