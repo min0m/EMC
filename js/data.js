@@ -9,15 +9,16 @@ const EMC_DATA = {
   ],
   events: [
     {
-      month: 'TBA',
-      day: '--',
+      month: 'SEP',
+      day: '30',
       title: 'Integration Day',
-      time: 'Coming soon',
+      time: '09:00 – 18:00',
       place: 'ESEN Campus',
       speaker: 'EMC Community',
-      description: 'A full day to meet your people, find your department, and build your first thing with EMC. Date to be announced — this is our focus.',
-      start: null,
-      end: null
+      description: 'Our flagship day: departments introduced, first projects assigned, and a full room of people meeting each other. Missed it? Watch the recap reel on Instagram.',
+      start: '20260930T080000Z',
+      end: '20260930T170000Z',
+      reel: ''
     }
   ],
   team: [

@@ -1,16 +1,17 @@
 # ESEN Microsoft Club — Website
 
-The official website for the ESEN Microsoft Club (EMC): a lightweight community portal with project showcases, events, team and alumni stories, learning resources, a photo archive, and a membership application form.
+The official website for the ESEN Microsoft Club (EMC): a lightweight community portal with project showcases, events, team stories, learning resources, a photo archive, and an interactive shell.
 
 ## What's inside
 
-- **Home** — club introduction, recruitment status, and community impact stats
-- **Projects** — filterable showcase cards with tech stacks, repositories, and demos
-- **Events** — upcoming workshops with RSVP links and downloadable iCalendar files
-- **Community** — executive bureau, alumni highlights, and member testimonials
-- **Resources** — roadmaps plus Azure for Students, GitHub Student Pack, and Microsoft Learn links
-- **Join Us** — department matcher quiz, recruitment timeline, FAQ, and application form
+- **Home** — club introduction, community impact stats, and department overview
+- **Projects** — filterable showcase cards with tech stacks and previews
+- **Events** — event cards with a recap reel link and downloadable iCalendar files
+- **Community** — the board, grouped by leadership, departments, and operations
+- **Resources** — learning paths plus Microsoft Learn, Student Pack, and design links
+- **Interactive shell** — a small CLI you can type commands into
 - **Archive** — filterable, lazy-loaded photo archive with an accessible lightbox
+- **FAQ** — the basics for visitors and students
 
 The site remains dependency-free and needs no build step or server. Content is separated into `js/data.js`, behavior into `js/app.js`, styles into `css/styles.css`, and the existing visual assets into `assets/images/`. Typography uses Syne (display), Source Sans 3 (body), and IBM Plex Mono (labels) via Google Fonts.
 
@@ -18,6 +19,6 @@ The site remains dependency-free and needs no build step or server. Content is s
 
 To update content, edit the arrays in `js/data.js`. Update layout in `index.html`, behavior in `js/app.js`, and visual styling in `css/styles.css`. The live site updates automatically within a minute of each commit.
 
-## The Join Us form
+## Integration Day recap reel
 
-The membership form posts to Web3Forms, which forwards submissions straight to email — no backend required. The form's access key is embedded in `index.html`; if it ever needs to be regenerated, get a new one at [web3forms.com](https://web3forms.com) and swap the `value` on the hidden `access_key` input.
+The Integration Day card in **Events** has a "Watch the reel on Instagram" button. Its target is the `reel` field of the Integration Day event in `js/data.js` — it is currently empty (`reel: ''`), so the button shows a "link coming soon" toast instead of navigating. Paste the published Instagram reel URL into that field and the button starts opening it in a new tab.

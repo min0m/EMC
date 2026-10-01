@@ -146,16 +146,23 @@ function formatEventDate(start) {
 
 function updateCountdowns() {
   $$('.countdown').forEach(label => {
-    const target = new Date(label.dataset.start).getTime();
-    if (!Number.isFinite(target)) {
+    const start = new Date(label.dataset.start).getTime();
+    const end = new Date(label.dataset.end).getTime();
+    if (!Number.isFinite(start)) {
       label.textContent = '';
       return;
     }
-    const remaining = target - Date.now();
-    if (remaining <= 0) {
+    const now = Date.now();
+    if (Number.isFinite(end) && now > end) {
+      label.textContent = 'Wrapped';
+      label.classList.add('past');
+      return;
+    }
+    if (now >= start) {
       label.textContent = 'Happening now';
       return;
     }
+    const remaining = start - now;
     const days = Math.floor(remaining / 86400000);
     const hours = Math.floor((remaining % 86400000) / 3600000);
     const minutes = Math.floor((remaining % 3600000) / 60000);
@@ -183,7 +190,7 @@ function renderEvents() {
         <span class="eyebrow">${events.length === 1 ? 'Our focus' : (index === events.length - 1 ? 'Flagship' : 'Upcoming')}</span>
         ${isTBA
           ? '<span class="countdown tba">Date to be announced</span>'
-          : `<span class="countdown" data-start="${formatEventDate(event.start)}"></span>`}
+          : `<span class="countdown" data-start="${formatEventDate(event.start)}" data-end="${formatEventDate(event.end)}"></span>`}
         <h3>${escapeHTML(event.title)}</h3>
         <p class="muted">${escapeHTML(event.description)}</p>
         <div class="event-detail">
@@ -192,10 +199,9 @@ function renderEvents() {
           <span>${escapeHTML(event.speaker)}</span>
         </div>
         <div class="event-actions">
-          <a class="button button-primary button-small" href="#join-us" data-rsvp="${escapeHTML(event.title)}">Get notified</a>
+          <a class="button button-primary button-small reel-button" data-reel="${escapeHTML(event.title)}" href="${escapeHTML(event.reel || '#')}" target="_blank" rel="noopener">Watch the reel<span class="reel-suffix"> on Instagram</span></a>
           ${isTBA ? '' : `<button class="button button-secondary button-small calendar-button" type="button" data-event="${index}">Add to calendar</button>`}
         </div>
-        <a class="text-link rsvp-cta" href="#business-reserve">Business owners — reserve a spot <span aria-hidden="true">→</span></a>
       </div>
     </article>
   `;
@@ -208,13 +214,11 @@ function renderEvents() {
   $$('.calendar-button', list).forEach(button => {
     button.addEventListener('click', () => createCalendarEvent(events[Number(button.dataset.event)]));
   });
-  $$('[data-rsvp]', list).forEach(button => {
-    button.addEventListener('click', () => {
-      const motivation = $('#motivation');
-      if (motivation) {
-        motivation.value = `I would like to join the ${button.dataset.rsvp}.`;
-        showToast('Noted — we will keep you posted on the date.');
-      }
+  $$('[data-reel]', list).forEach(link => {
+    link.addEventListener('click', event => {
+      if (link.getAttribute('href') !== '#') return;
+      event.preventDefault();
+      showToast(`The ${link.dataset.reel} reel link drops here as soon as it is up.`);
     });
   });
   observeReveals(list);
@@ -373,55 +377,6 @@ function closeGallery() {
   if (lastFocusedElement) lastFocusedElement.focus();
 }
 
-function initQuiz() {
-  const questions = $$('.quiz-question');
-  const progress = $('#quizProgress');
-  const count = $('#quizCount');
-  const result = $('#quizResult');
-  const answers = [];
-  if (!questions.length || !progress || !result) return;
-
-  const setStep = step => {
-    questions.forEach((question, index) => question.classList.toggle('active', index === step));
-    progress.style.width = `${((step + 1) / questions.length) * 100}%`;
-    if (count) {
-      count.textContent = `${String(step + 1).padStart(2, '0')} / ${String(questions.length).padStart(2, '0')}`;
-    }
-  };
-  setStep(0);
-
-  $$('.quiz-option').forEach(option => {
-    option.addEventListener('click', () => {
-      const current = Number(option.closest('.quiz-question').dataset.step) - 1;
-      answers[current] = option.dataset.answer;
-      if (current < questions.length - 1) {
-        setStep(current + 1);
-      } else {
-        questions.forEach(question => question.classList.remove('active'));
-        const counts = answers.reduce((acc, answer) => {
-          acc[answer] = (acc[answer] || 0) + 1;
-          return acc;
-        }, {});
-        const winner = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Project';
-        $('#quizResultName').textContent = winner;
-        result.classList.add('visible');
-        progress.style.width = '100%';
-        if (count) count.textContent = 'MATCH';
-        const dept = $('#department');
-        if (dept && [...dept.options].some(o => o.value === winner)) {
-          dept.value = winner;
-        }
-      }
-    });
-  });
-
-  $('#quizReset')?.addEventListener('click', () => {
-    answers.length = 0;
-    result.classList.remove('visible');
-    setStep(0);
-  });
-}
-
 function initFaq() {
   $$('.faq-trigger').forEach(trigger => {
     trigger.addEventListener('click', () => {
@@ -429,146 +384,6 @@ function initFaq() {
       const open = item.classList.toggle('open');
       trigger.setAttribute('aria-expanded', String(open));
     });
-  });
-}
-
-function bindAjaxForm(formId, options) {
-  const form = $(formId);
-  if (!form) return null;
-  const fields = options.fields;
-  const submit = $(options.submitEl);
-  const status = $(options.statusEl);
-  const success = $(options.successEl);
-  const reset = options.resetEl ? $(options.resetEl) : null;
-  const messages = options.messages;
-
-  const validate = () => fields.reduce((valid, field) => {
-    const input = $(`#${field.id}`);
-    const group = input.closest('.form-group');
-    const value = input.value.trim();
-    let invalid = !value;
-    if (!invalid && field.type === 'email') invalid = !input.validity.valid;
-    if (!invalid && field.type === 'phone') invalid = !/^\+?[()\d][()\d\s.-]{5,19}$/.test(value);
-    group.classList.toggle('has-error', invalid);
-    input.setAttribute('aria-invalid', String(invalid));
-    return valid && !invalid;
-  }, true);
-
-  fields.forEach(field => {
-    const input = $(`#${field.id}`);
-    input.addEventListener('input', () => {
-      input.closest('.form-group').classList.remove('has-error');
-      input.setAttribute('aria-invalid', 'false');
-      if (status) status.textContent = '';
-    });
-  });
-
-  form.addEventListener('submit', async event => {
-    event.preventDefault();
-    if (!validate()) {
-      if (status) {
-        status.className = 'form-status error';
-        status.textContent = messages.invalid;
-      }
-      showToast(messages.invalid);
-      $('.form-group.has-error .form-input, .form-group.has-error .form-select', form)?.focus();
-      return;
-    }
-    if ($('[name="botcheck"]', form)?.checked) return;
-    submit.disabled = true;
-    submit.textContent = messages.buttonSending;
-    if (status) {
-      status.className = 'form-status';
-      status.textContent = messages.sending;
-    }
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 10000);
-      const response = await fetch(form.action, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form),
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
-      const result = await response.json();
-      if (!response.ok || !result.success) throw new Error(result.message || 'Submission failed');
-      form.classList.add('hidden');
-      if (success) success.classList.add('visible');
-      showToast(messages.ok);
-    } catch (error) {
-      submit.disabled = false;
-      submit.textContent = messages.submitIdle;
-      if (status) {
-        status.className = 'form-status error';
-        status.textContent = error.name === 'AbortError' ? messages.timeout : messages.network;
-      }
-    }
-  });
-
-  if (reset) {
-    reset.addEventListener('click', () => {
-      form.reset();
-      fields.forEach(field => {
-        const input = $(`#${field.id}`);
-        input.closest('.form-group').classList.remove('has-error');
-        input.setAttribute('aria-invalid', 'false');
-      });
-      form.classList.remove('hidden');
-      if (success) success.classList.remove('visible');
-      submit.disabled = false;
-      submit.textContent = messages.submitIdle;
-      if (status) status.textContent = '';
-    });
-  }
-  return form;
-}
-
-function initForm() {
-  bindAjaxForm('#recruitmentForm', {
-    fields: [
-      { id: 'fullname', type: '' },
-      { id: 'email', type: 'email' },
-      { id: 'level', type: '' },
-      { id: 'department', type: '' }
-    ],
-    submitEl: '#submitApplication',
-    statusEl: '#formStatus',
-    successEl: '#successState',
-    resetEl: '#resetForm',
-    messages: {
-      invalid: 'Please complete the highlighted fields before sending.',
-      sending: 'Sending your application…',
-      buttonSending: 'Sending…',
-      ok: 'Application received — check your inbox.',
-      timeout: 'The request timed out. Please try again.',
-      network: 'We could not send that just now. Please try again or email the club directly.',
-      submitIdle: 'Send application'
-    }
-  });
-}
-
-function initBusinessForm() {
-  bindAjaxForm('#businessForm', {
-    fields: [
-      { id: 'bizName', type: '' },
-      { id: 'bizBusiness', type: '' },
-      { id: 'bizEmail', type: 'email' },
-      { id: 'bizPhone', type: 'phone' }
-    ],
-    submitEl: '#submitBusiness',
-    statusEl: '#businessStatus',
-    successEl: '#businessSuccess',
-    resetEl: '#businessReset',
-    messages: {
-      invalid: 'Please complete the highlighted fields before reserving.',
-      sending: 'Reserving your spot…',
-      buttonSending: 'Reserving…',
-      ok: 'Spot reserved — we will contact you about Integration Day.',
-      timeout: 'The request timed out. Please try again.',
-      network: 'We could not send that just now. Please try again or email the club directly.',
-      submitIdle: 'Reserve a place'
-    }
   });
 }
 
@@ -603,7 +418,7 @@ function initShell() {
         ['about', 'what EMC is about'],
         ['events', 'next club event'],
         ['team', 'who runs the club'],
-        ['join', 'how to get involved'],
+        ['join', 'recruitment status'],
         ['motto', 'our motto'],
         ['whoami', 'who you are here'],
         ['clear', 'clear the screen']
@@ -634,10 +449,10 @@ function initShell() {
       shellWrite(screen, board, '');
     },
     join() {
-      shellWrite(screen, 'Applications are open for Fall 2026.', 'ok');
-      shellWrite(screen, 'Find the right department with the quiz, then hit "Apply to join".', '');
-      shellWrite(screen, 'Jump: scroll to the join section — or type a department you like:', '');
-      shellWrite(screen, '  project · marketing · talents · business', 'hl');
+      shellWrite(screen, 'RECRUITMENT IS CLOSED FOR THIS CHAPTER', 'warn');
+      shellWrite(screen, 'We already have our members — thank you for the interest.', '');
+      shellWrite(screen, 'The next call opens on Instagram first. Watch the Integration', 'dim');
+      shellWrite(screen, 'Day reel there, or email contact@emcclub.tn.', 'dim');
     },
     motto() {
       shellWrite(screen, '“Build, innovate, and grow with us.”', 'warn');
@@ -645,7 +460,7 @@ function initShell() {
     },
     whoami() {
       shellWrite(screen, 'guest', '');
-      shellWrite(screen, 'A future EMC builder, hopefully. → #join-us', 'hl');
+      shellWrite(screen, 'A future EMC builder, hopefully. → #events', 'hl');
     },
     clear() {
       screen.innerHTML = '';
@@ -706,13 +521,10 @@ const REVEAL_SELECTOR = [
   '.project-card',
   '.event-card',
   '.events-aside',
-  '.business-rsvp',
   '.board',
   '.resource-card',
   '.perks-block',
   '.terminal',
-  '.join-intro > *',
-  '.application-card',
   '.gallery-card',
   '.faq-item'
 ].join(', ');
@@ -749,7 +561,7 @@ function observeReveals(root = document) {
     el.dataset.revealReady = 'true';
     el.classList.add('reveal');
 
-    if (el.matches('.events-aside, .application-card')) {
+    if (el.matches('.events-aside')) {
       el.classList.add('reveal-left');
     } else if (el.matches('.hero-content > *, .stat-row > div')) {
       el.classList.add('reveal-scale');
@@ -920,10 +732,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderEvents();
   initBoard();
   renderGallery();
-  initQuiz();
   initFaq();
-  initForm();
-  initBusinessForm();
   initShell();
   initScrollProgress();
   initHeaderShadow();
