@@ -53,7 +53,7 @@ function runCommand(cmd: string): TermLine[] {
       return [
         { text: 'Available commands:', cls: 'hi' },
         { text: '  about    — who we are' },
-        { text: '  events   — upcoming events' },
+        { text: '  events   — event schedule' },
         { text: '  team     — core board members' },
         { text: '  join     — membership status' },
         { text: '  motto    — the EMC motto' },
@@ -69,8 +69,8 @@ function runCommand(cmd: string): TermLine[] {
       ]
     case 'events':
       return [
-        { text: 'Upcoming events:', cls: 'hi' },
-        { text: '  Integration Day — ESEN Campus · Date TBA' },
+        { text: 'Recent events:', cls: 'hi' },
+        { text: '  Integration Day — 30 September 2026, ESEN Campus' },
         { text: '  A full day to meet your people and find your department.' },
         { text: 'More events will be announced soon.', cls: 'accent' },
       ]
@@ -300,7 +300,7 @@ export default function App() {
             <h1>Build, innovate,<br />and grow with us.</h1>
             <p className="hero-lead">A student-led tech community at ESEN bridging tech, innovation, and business — workshops, hackathons, and portfolio projects. No experience required.</p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#events" onClick={e => navClick(e as any, 'events')}>See upcoming events</a>
+              <a className="button button-primary" href="#events" onClick={e => navClick(e as any, 'events')}>See events</a>
               <a className="button button-ghost" href="#community" onClick={e => navClick(e as any, 'community')}>Meet the club</a>
             </div>
           </div>
@@ -436,17 +436,17 @@ export default function App() {
               <div className="event-list">
                 <article className="event-item">
                   <div className="event-date">
-                    <div className="event-day">—</div>
-                    <div className="event-month">TBA</div>
+                    <div className="event-day">30</div>
+                    <div className="event-month">SEP</div>
                   </div>
                   <div className="event-body">
                     <h3>Integration Day</h3>
                     <div className="event-details">
-                      <span className="event-detail">Coming soon</span>
+                      <span className="event-detail">30 September 2026</span>
                       <span className="event-detail">ESEN Campus</span>
                       <span className="event-detail">EMC Community</span>
                     </div>
-                    <p className="event-description">A full day to meet your people, find your department, and build your first thing with EMC. Date to be announced — this is our focus.</p>
+                    <p className="event-description">A full day to meet your people, find your department, and build your first thing with EMC. This edition has wrapped up — catch the recap in the reel, and watch this space for the next one.</p>
                     <div className="event-actions">
                       <a className="button button-secondary button-small" href="#join-us" onClick={e => navClick(e as any, 'join-us')}>Membership info</a>
                       <a className="button button-secondary button-small" href="#business-reserve" onClick={e => { e.preventDefault(); document.getElementById('business-reserve')?.scrollIntoView({ behavior:'smooth' }) }}>For businesses</a>
@@ -484,7 +484,7 @@ export default function App() {
                 <div className="success-state">
                   <div className="success-mark" aria-hidden="true">✓</div>
                   <h3>Reservations are closed.</h3>
-                  <p className="muted">Integration Day has wrapped up and all business places are taken. Interested in partnering with us for a future edition? Email us and we'll get back to you.</p>
+                  <p className="muted">The 30 September edition has wrapped up and all business places were taken. Interested in partnering with us for the next one? Email us and we'll get back to you.</p>
                   <a className="button button-secondary button-small" href="mailto:contact@emcclub.tn?subject=Integration%20Day%20partnership">contact@emcclub.tn</a>
                 </div>
               </div>
@@ -659,7 +659,7 @@ export default function App() {
                 <h3>Missed the deadline?</h3>
                 <p className="muted">We open a new intake every academic year, so nothing is lost — keep an eye on this page. In the meantime, come to our public events, follow the club on Instagram, or drop us a line and we'll tell you when the next round opens.</p>
                 <div className="event-actions">
-                  <a className="button button-primary button-small" href="#events" onClick={e => navClick(e as any, 'events')}>See upcoming events</a>
+                  <a className="button button-primary button-small" href="#events" onClick={e => navClick(e as any, 'events')}>See events</a>
                   <a className="button button-secondary button-small" href="mailto:contact@emcclub.tn?subject=EMC%20membership">Email us</a>
                 </div>
               </div>
