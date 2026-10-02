@@ -821,16 +821,16 @@ label { font-size: 0.88rem; font-weight: 500; color: var(--muted); }
 .footer-brand { max-width: 280px; }
 .footer-intro { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-top: 1rem; margin-bottom: 1.25rem; }
 .social-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-.social-row a {
+.site-footer .footer-top .social-row a {
   display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--mono); font-size: 0.68rem; color: var(--muted);
   border: 1px solid var(--line); border-radius: var(--radius-sm);
-  padding: 0.25em 0.65em; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 0.6em 0.7em; letter-spacing: 0.05em; text-transform: uppercase;
   line-height: 1;
   transition: color 0.2s, border-color 0.2s;
 }
-.social-row a:hover { color: var(--blue); border-color: var(--blue); }
-.social-row a svg { display: block; width: 18px; height: 18px; }
+.site-footer .footer-top .social-row a:hover { color: var(--blue); border-color: var(--blue); }
+.site-footer .footer-top .social-row a svg { display: block; width: 18px; height: 18px; }
 .site-footer h3 { font-family: var(--mono); font-size: 0.68rem; color: var(--faint); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; font-weight: 500; }
 .site-footer .footer-top > div a {
   display: block; color: var(--muted); font-size: 0.9rem;
