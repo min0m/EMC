@@ -967,10 +967,7 @@ export default function App() {
               </a>
               <p className="footer-intro">Student-led tech community at ESEN Manouba — bridging tech, innovation, and business.</p>
               <div className="social-row">
-                <a href="https://www.linkedin.com/company/esen-microsoft-club" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="https://www.facebook.com/ESENMIC" target="_blank" rel="noopener">Facebook</a>
-                <a href="https://github.com/esen-microsoft-club" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://www.esenmicrosoftclub.tn" target="_blank" rel="noopener">Website</a>
+                <a href="https://www.instagram.com/esen_microsoft.club/" target="_blank" rel="noopener noreferrer">Instagram</a>
               </div>
             </div>
             <div>
