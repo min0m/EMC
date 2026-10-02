@@ -15,9 +15,13 @@ Built with **React 19 + TypeScript + Vite**.
 - **Archive** — filterable, lazy-loaded photo archive with an accessible lightbox
 - **Shell** — a small interactive terminal with a handful of commands
 
-## Recruitment status
+## Recruitment
 
-Recruitment for the current intake is **closed**. The membership application form and the Integration Day business reservation form have both been removed. Those sections now show a closed-state panel that links to `contact@emcclub.tn`.
+Recruitment is **open**. Members apply with the form in the Join Us section, which posts to web3forms.
+
+The Integration Day business reservation form has been removed from the site entirely.
+
+> The web3forms access key is committed in `src/App.tsx` as `WEB3FORMS_KEY`. It ships in the client bundle, so anyone can read it and submit as the club. That is fine for a public application form, but treat the key as public and rotate it if you ever add anything sensitive behind it. Moving it to an `import.meta.env.VITE_WEB3FORMS_KEY` variable keeps it out of git.
 
 ## Project structure
 

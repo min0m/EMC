@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
+const WEB3FORMS_KEY = '8facfe1e-1254-4b58-b065-402d86c80537'
+
 /* ──────────────── Data ──────────────── */
 const PROJECTS = [
   { id:'01', title:'Campus Connect', type:'React', image:'assets/images/asset-12.jpg', pitch:'A student-built directory for discovering clubs, events, and people at ESEN.', stack:['React','Node.js','MongoDB'] },
@@ -85,7 +87,7 @@ function runCommand(cmd: string): TermLine[] {
         { text: '  1. Recruitment opens once per academic year' },
         { text: '  2. Applications close when the intake is full' },
         { text: '  3. Welcome Session, then pick a department' },
-        { text: 'This intake is closed. Watch #join-us for the next one.', cls: 'accent' },
+        { text: 'Applications are open — see #join-us.', cls: 'accent' },
       ]
     case 'motto':
       return [
@@ -211,6 +213,82 @@ export default function App() {
   }
 
   const resetQuiz = () => { setQuizStep(0); setQuizAnswers([]); setQuizResult(null) }
+
+  const [appValues, setAppValues] = useState({ name: '', email: '', study_level: '', department: '', message: '' })
+  const [appErrors, setAppErrors] = useState<Record<string, string>>({})
+  const [appStatus, setAppStatus] = useState<{ kind: 'idle' | 'sending' | 'error'; msg: string }>({ kind: 'idle', msg: '' })
+  const [appBot, setAppBot] = useState(false)
+  const [appSent, setAppSent] = useState(false)
+
+  const setAppField = (field: string, value: string) => {
+    setAppValues(v => ({ ...v, [field]: value }))
+    setAppErrors(e => {
+      if (!e[field]) return e
+      const next = { ...e }
+      delete next[field]
+      return next
+    })
+  }
+
+  const validateApp = () => {
+    const errors: Record<string, string> = {}
+    if (!appValues.name.trim()) errors.name = 'Please enter your name.'
+    if (!appValues.email.trim()) errors.email = 'Please enter your email.'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(appValues.email.trim())) errors.email = 'Please enter a valid email.'
+    if (!appValues.study_level) errors.study_level = 'Please choose your study level.'
+    if (!appValues.department) errors.department = 'Please choose a department.'
+    return errors
+  }
+
+  const submitApplication = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (appBot) return
+    const errors = validateApp()
+    setAppErrors(errors)
+    if (Object.keys(errors).length) {
+      setAppStatus({ kind: 'error', msg: 'Please complete the highlighted fields before sending.' })
+      const first = document.querySelector<HTMLInputElement>('.application-card .has-error .form-input, .application-card .has-error .form-select')
+      first?.focus()
+      return
+    }
+
+    setAppStatus({ kind: 'sending', msg: 'Sending your application…' })
+    const body = new FormData()
+    body.append('access_key', WEB3FORMS_KEY)
+    body.append('subject', 'New ESEN Microsoft Club Application')
+    body.append('from_name', 'ESEN Microsoft Club Recruitment')
+    body.append('name', appValues.name.trim())
+    body.append('email', appValues.email.trim())
+    body.append('study_level', appValues.study_level)
+    body.append('department', appValues.department)
+    body.append('message', appValues.message.trim())
+
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), 10000)
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body,
+        signal: controller.signal,
+      })
+      const result = await response.json()
+      if (!response.ok || !result.success) throw new Error(result.message || 'Submission failed')
+      clearTimeout(timer)
+      setAppSent(true)
+    } catch (err) {
+      clearTimeout(timer)
+      const aborted = err instanceof Error && err.name === 'AbortError'
+      setAppStatus({ kind: 'error', msg: aborted ? 'The request timed out. Please try again.' : 'We could not send that just now. Please try again or email the club directly.' })
+    }
+  }
+
+  const resetApplication = () => {
+    setAppValues({ name: '', email: '', study_level: '', department: '', message: '' })
+    setAppErrors({})
+    setAppStatus({ kind: 'idle', msg: '' })
+    setAppSent(false)
+  }
 
   // Nav links
   const navLinks = [
@@ -448,8 +526,7 @@ export default function App() {
                     </div>
                     <p className="event-description">A full day to meet your people, find your department, and build your first thing with EMC. This edition has wrapped up — catch the recap in the reel, and watch this space for the next one.</p>
                     <div className="event-actions">
-                      <a className="button button-secondary button-small" href="#join-us" onClick={e => navClick(e as any, 'join-us')}>Membership info</a>
-                      <a className="button button-secondary button-small" href="#business-reserve" onClick={e => { e.preventDefault(); document.getElementById('business-reserve')?.scrollIntoView({ behavior:'smooth' }) }}>For businesses</a>
+<a className="button button-secondary button-small" href="#join-us" onClick={e => navClick(e as any, 'join-us')}>Membership info</a>
                       <a className="button button-ghost button-small" href="https://www.instagram.com/p/Dd9eqFFg24h/" target="_blank" rel="noopener noreferrer">Watch reel</a>
                     </div>
                   </div>
@@ -464,30 +541,6 @@ export default function App() {
                 <p>The room is part of the work. Browse photos from workshops and hackathons in the archive.</p>
                 <a className="text-link" href="#archive" onClick={e => navClick(e as any, 'archive')}>Open the photo archive <span aria-hidden="true">→</span></a>
               </aside>
-            </div>
-
-            {/* Business RSVP */}
-            <div className="business-rsvp" id="business-reserve">
-              <div className="business-intro">
-                <span className="eyebrow">For business owners</span>
-                <h3>Integration Day is how we connect.</h3>
-                <p className="lead">A day to meet ESEN's technical talent face to face. Present your business, talk to students, and make connections that last the semester.</p>
-                <ul className="business-perks">
-                  <li>Meet future hires &amp; collaborators</li>
-                  <li>Showcase your products to students</li>
-                  <li>Walk away with contacts, not just leads</li>
-                </ul>
-                <p className="business-note">Held once per academic year — limited spots, one business per place</p>
-              </div>
-
-              <div className="business-form-card">
-                <div className="success-state">
-                  <div className="success-mark" aria-hidden="true">✓</div>
-                  <h3>Reservations are closed.</h3>
-                  <p className="muted">The 30 September edition has wrapped up and all business places were taken. Interested in partnering with us for the next one? Email us and we'll get back to you.</p>
-                  <a className="button button-secondary button-small" href="mailto:contact@emcclub.tn?subject=Integration%20Day%20partnership">contact@emcclub.tn</a>
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -645,24 +698,124 @@ export default function App() {
               </div>
             </div>
 
-            {/* Recruitment status */}
+            {/* Application form */}
             <div className="application-card">
               <div className="application-top">
-                <span className="status"><i aria-hidden="true" /> Recruitment closed · Fall 2026</span>
+                <span className="status"><i aria-hidden="true" /> Recruitment open · Fall 2026</span>
                 <span className="application-code">EMC / 2026</span>
               </div>
-              <h3>Recruitment is closed.</h3>
-              <p className="muted">Applications for this intake are no longer open — the deadline has passed.</p>
 
-              <div className="success-state">
-                <div className="success-mark" aria-hidden="true">✓</div>
-                <h3>Missed the deadline?</h3>
-                <p className="muted">We open a new intake every academic year, so nothing is lost — keep an eye on this page. In the meantime, come to our public events, follow the club on Instagram, or drop us a line and we'll tell you when the next round opens.</p>
-                <div className="event-actions">
-                  <a className="button button-primary button-small" href="#events" onClick={e => navClick(e as any, 'events')}>See events</a>
-                  <a className="button button-secondary button-small" href="mailto:contact@emcclub.tn?subject=EMC%20membership">Email us</a>
+              {appSent ? (
+                <div className="success-state visible">
+                  <div className="success-mark" aria-hidden="true">✓</div>
+                  <h3>Application received.</h3>
+                  <p className="muted">Thanks for applying — check your inbox for a reply from the board. We read every application.</p>
+                  <div className="event-actions">
+                    <button className="button button-secondary button-small" type="button" onClick={resetApplication}>Send another</button>
+                    <a className="button button-ghost button-small" href="#events" onClick={e => navClick(e as any, 'events')}>See events</a>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <>
+                  <h3>Apply to join</h3>
+                  <p className="muted">A few details help us welcome you into the right conversation.</p>
+                  <form onSubmit={submitApplication} noValidate>
+                    <input
+                      className="honeypot"
+                      type="checkbox"
+                      name="botcheck"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      checked={appBot}
+                      onChange={e => setAppBot(e.target.checked)}
+                    />
+                    <div className="form-grid">
+                      <div className={`form-group${appErrors.name ? ' has-error' : ''}`}>
+                        <label htmlFor="fullname">Full name <span className="req">*</span></label>
+                        <input
+                          className="form-input"
+                          id="fullname"
+                          name="name"
+                          type="text"
+                          placeholder="e.g. Anis Mansour"
+                          autoComplete="name"
+                          aria-invalid={appErrors.name ? 'true' : 'false'}
+                          aria-describedby="fullname-error"
+                          value={appValues.name}
+                          onChange={e => setAppField('name', e.target.value)}
+                        />
+                        <span className="form-error" id="fullname-error">{appErrors.name}</span>
+                      </div>
+                      <div className={`form-group${appErrors.email ? ' has-error' : ''}`}>
+                        <label htmlFor="email">Email <span className="req">*</span></label>
+                        <input
+                          className="form-input"
+                          id="email"
+                          name="email"
+                          type="email"
+                          placeholder="name@domain.com"
+                          autoComplete="email"
+                          aria-invalid={appErrors.email ? 'true' : 'false'}
+                          aria-describedby="email-error"
+                          value={appValues.email}
+                          onChange={e => setAppField('email', e.target.value)}
+                        />
+                        <span className="form-error" id="email-error">{appErrors.email}</span>
+                      </div>
+                      <div className={`form-group${appErrors.study_level ? ' has-error' : ''}`}>
+                        <label htmlFor="level">Study level <span className="req">*</span></label>
+                        <select
+                          className="form-select"
+                          id="level"
+                          name="study_level"
+                          aria-invalid={appErrors.study_level ? 'true' : 'false'}
+                          aria-describedby="level-error"
+                          value={appValues.study_level}
+                          onChange={e => setAppField('study_level', e.target.value)}
+                        >
+                          <option value="">Select your year</option>
+                          {['1st Year License', '2nd Year License', '3rd Year License', '1st Year Master', '2nd Year Master'].map(o => <option key={o}>{o}</option>)}
+                        </select>
+                        <span className="form-error" id="level-error">{appErrors.study_level}</span>
+                      </div>
+                      <div className={`form-group${appErrors.department ? ' has-error' : ''}`}>
+                        <label htmlFor="department">Preferred department <span className="req">*</span></label>
+                        <select
+                          className="form-select"
+                          id="department"
+                          name="department"
+                          aria-invalid={appErrors.department ? 'true' : 'false'}
+                          aria-describedby="department-error"
+                          value={appValues.department}
+                          onChange={e => setAppField('department', e.target.value)}
+                        >
+                          <option value="">Choose a department</option>
+                          {['Project', 'Talents', 'Marketing', 'Business'].map(o => <option key={o}>{o}</option>)}
+                        </select>
+                        <span className="form-error" id="department-error">{appErrors.department}</span>
+                      </div>
+                      <div className="form-group full">
+                        <label htmlFor="motivation">What do you want to explore?</label>
+                        <textarea
+                          className="form-textarea"
+                          id="motivation"
+                          name="message"
+                          rows={4}
+                          placeholder="An interest, skill, or idea…"
+                          value={appValues.message}
+                          onChange={e => setAppField('message', e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <button className="button button-primary submit-button" type="submit" disabled={appStatus.kind === 'sending'}>
+                      {appStatus.kind === 'sending' ? 'Sending…' : 'Send application'}
+                    </button>
+                    <p className="form-note">We only use your details to respond to this application.</p>
+                    <p className={`form-status${appStatus.kind === 'error' ? ' error' : ''}`} role="status" aria-live="polite">{appStatus.msg}</p>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         </section>

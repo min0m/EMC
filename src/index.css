@@ -507,21 +507,6 @@ code { font-family: var(--mono); font-size: 0.88em; color: var(--signal); backgr
 .events-photo figcaption { padding: 0.75rem 1rem; font-family: var(--mono); font-size: 0.65rem; color: var(--faint); letter-spacing: 0.06em; text-transform: uppercase; background: var(--surface); }
 .events-aside > p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; margin: 0; }
 
-/* Business form card */
-.business-rsvp {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 3rem; background: var(--surface);
-  border: 1px solid var(--line); border-radius: var(--radius-xl);
-  padding: 3rem; margin-top: 1rem;
-}
-.business-intro h3 { font-size: 1.6rem; margin-bottom: 0.75rem; }
-.business-perks { margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
-.business-perks li {
-  padding-left: 1.25rem; position: relative; color: var(--muted); font-size: 0.92rem;
-}
-.business-perks li::before { content: "→"; position: absolute; left: 0; color: var(--blue); }
-.business-note { font-family: var(--mono); font-size: 0.7rem; color: var(--faint); letter-spacing: 0.05em; margin-top: 1.25rem; }
-
 /* ── Form styles ── */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
 .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
@@ -542,12 +527,13 @@ label { font-size: 0.88rem; font-weight: 500; color: var(--muted); }
 .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239aa3b0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.85rem center; padding-right: 2.5rem; cursor: pointer; }
 .form-textarea { resize: vertical; min-height: 100px; line-height: 1.55; }
 .form-error { font-size: 0.8rem; color: var(--coral); display: none; }
-.form-group.error .form-error { display: block; }
-.form-group.error .form-input,
-.form-group.error .form-select,
-.form-group.error .form-textarea { border-color: var(--coral); }
+.form-group.has-error .form-error { display: block; }
+.form-group.has-error .form-input,
+.form-group.has-error .form-select,
+.form-group.has-error .form-textarea { border-color: var(--coral); }
 .form-note { font-size: 0.8rem; color: var(--faint); margin-top: 0.75rem; margin-bottom: 0; }
 .form-status { font-size: 0.88rem; margin-top: 0.5rem; min-height: 1.4em; color: var(--signal); }
+.form-status.error { color: var(--coral); }
 .submit-button { width: 100%; }
 
 /* success state */
@@ -870,7 +856,6 @@ label { font-size: 0.88rem; font-weight: 500; color: var(--muted); }
   .resource-grid { grid-template-columns: repeat(2,1fr); }
   .perks-block { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr 1fr; }
-  .business-rsvp { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -892,7 +877,6 @@ label { font-size: 0.88rem; font-weight: 500; color: var(--muted); }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .footer-brand { max-width: none; grid-column: 1/-1; }
   .form-grid { grid-template-columns: 1fr; }
-  .business-rsvp { padding: 2rem 1.25rem; }
 }
 
 @media (max-width: 480px) {
