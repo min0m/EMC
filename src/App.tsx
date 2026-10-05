@@ -15,7 +15,7 @@ const PROJECTS = [
 const TEAM = [
   { initials:'GA', name:'Ghassen Ayari', role:'President', bio:'Leads overall strategy, guides the team, and represents the club.', linkedin:'https://www.linkedin.com/in/ghassen-ayari-907410326', github:'' },
   { initials:'MG', name:'Malek Gouja', role:'Vice President', bio:'Drives execution, supports board members, and steps in when needed.', linkedin:'', github:'' },
-  { initials:'AR', name:'Amine Rouatbi', role:'Project Manager', bio:'Directs technical execution, manages timelines, oversees architecture, and ensures project delivery.', linkedin:'', github:'' },
+  { initials:'AR', name:'Amine Rouatbi', role:'Project Manager', bio:'Directs technical execution, manages timelines, oversees architecture, and ensures project delivery.', linkedin:'https://www.linkedin.com/in/mohamed-amine-32665b395/', github:'' },
   { initials:'ID', name:'Ines Dridi', role:'Talents Manager', bio:'Recruits, empowers, and looks after member development and club culture.', linkedin:'', github:'' },
   { initials:'MA', name:'Maryem Attia', role:'Marketing Manager', bio:'Shapes our brand, runs campaigns, and leads community engagement.', linkedin:'', github:'' },
   { initials:'TH', name:'Taha Hafian', role:'Business Manager', bio:'Manages finances, secures sponsorships, and handles external partnerships.', linkedin:'', github:'' },
@@ -101,13 +101,6 @@ function runCommand(cmd: string): TermLine[] {
   }
 }
 
-/* ──────────────── Chunk team into pages ──────────────── */
-function chunkTeam(members: typeof TEAM, perPage: number) {
-  const pages: (typeof TEAM)[] = []
-  for (let i = 0; i < members.length; i += perPage) pages.push(members.slice(i, i + perPage))
-  return pages
-}
-
 /* ──────────────── Main App ──────────────── */
 export default function App() {
   // Theme
@@ -137,7 +130,7 @@ export default function App() {
   // Active nav section
   const [activeSection, setActiveSection] = useState('home')
   useEffect(() => {
-    const sections = ['home','about','projects','events','community','resources','join-us','shell']
+    const sections = ['home','about','projects','events','resources','join-us','shell']
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) })
     }, { threshold: 0.25 })
@@ -149,10 +142,6 @@ export default function App() {
   const [projectFilter, setProjectFilter] = useState('All')
   const filterLabels = ['All','React','Azure','Python','UI/UX']
   const filteredProjects = projectFilter === 'All' ? PROJECTS : PROJECTS.filter(p => p.type === projectFilter)
-
-  // Board carousel
-  const boardPages = chunkTeam(TEAM, 4)
-  const [boardPage, setBoardPage] = useState(0)
 
   // FAQ
   const [openFaq, setOpenFaq] = useState<number | null>(0)
@@ -295,7 +284,6 @@ export default function App() {
     { href: '#about', label: 'About' },
     { href: '#projects', label: 'Projects' },
     { href: '#events', label: 'Events' },
-    { href: '#community', label: 'People' },
     { href: '#resources', label: 'Learn' },
     { href: '#shell', label: 'Shell' },
   ]
@@ -379,7 +367,7 @@ export default function App() {
             <p className="hero-lead">A student-led tech community at ESEN bridging tech, innovation, and business — workshops, hackathons, and portfolio projects. No experience required.</p>
             <div className="hero-actions">
               <a className="button button-primary" href="#events" onClick={e => navClick(e as any, 'events')}>See events</a>
-              <a className="button button-ghost" href="#community" onClick={e => navClick(e as any, 'community')}>Meet the club</a>
+              <a className="button button-ghost" href="#about" onClick={e => navClick(e as any, 'about')}>Meet the club</a>
             </div>
           </div>
         </section>
@@ -541,55 +529,6 @@ export default function App() {
                 <p>The room is part of the work. Browse photos from workshops and hackathons in the archive.</p>
                 <a className="text-link" href="#archive" onClick={e => navClick(e as any, 'archive')}>Open the photo archive <span aria-hidden="true">→</span></a>
               </aside>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Community / Board ── */}
-        <section className="section board-section" id="community">
-          <div className="container">
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">Our core team</span>
-                <h2>Meet the board.</h2>
-              </div>
-              <p className="heading-note">Leadership, departments, and operations. Use the arrows to flip between pages.</p>
-            </div>
-
-            <div className="board">
-              <div className="board-window">
-                <div className="board-track" style={{ transform: `translateX(-${boardPage * 100}%)` }}>
-                  {boardPages.map((page, pi) => (
-                    <div key={pi} className="board-page">
-                      {page.map(m => (
-                        <article key={m.initials} className="member-card">
-                          <div className="member-avatar">{m.initials}</div>
-                          <div className="member-role">{m.role}</div>
-                          <h3>{m.name}</h3>
-                          <p className="member-bio">{m.bio}</p>
-                          <div className="member-links">
-                            {m.linkedin && <a href={m.linkedin} target="_blank" rel="noopener" className="member-link">LinkedIn ↗</a>}
-                            {m.github && <a href={m.github} target="_blank" rel="noopener" className="member-link">GitHub ↗</a>}
-                          </div>
-                        </article>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="board-controls">
-                <button className="board-arrow" type="button" onClick={() => setBoardPage(p => Math.max(0, p-1))} aria-label="Previous page" disabled={boardPage === 0}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-                <div className="board-dots">
-                  {boardPages.map((_, i) => (
-                    <button key={i} className={`board-dot${i === boardPage ? ' active' : ''}`} type="button" onClick={() => setBoardPage(i)} aria-label={`Page ${i+1}`} />
-                  ))}
-                </div>
-                <button className="board-arrow" type="button" onClick={() => setBoardPage(p => Math.min(boardPages.length-1, p+1))} aria-label="Next page" disabled={boardPage === boardPages.length-1}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-                </button>
-              </div>
             </div>
           </div>
         </section>
@@ -978,7 +917,6 @@ export default function App() {
               <h3>Explore</h3>
               <a href="#projects" onClick={e => navClick(e as any, 'projects')}>Projects</a>
               <a href="#events" onClick={e => navClick(e as any, 'events')}>Events</a>
-              <a href="#community" onClick={e => navClick(e as any, 'community')}>People</a>
               <a href="#shell" onClick={e => navClick(e as any, 'shell')}>Shell</a>
               <a href="#archive" onClick={e => navClick(e as any, 'archive')}>Archive</a>
             </div>
