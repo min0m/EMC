@@ -993,7 +993,7 @@ export default function App() {
               <h3>Campus</h3>
               <a href="http://www.esen.tn/" target="_blank" rel="noopener">ESEN Manouba</a>
               <a href="https://studentambassadors.microsoft.com/" target="_blank" rel="noopener">Microsoft Learn Student Ambassadors</a>
-              <a href="mailto:contact@emcclub.tn">contact@emcclub.tn</a>
+              <a href="mailto:microsoft.club@esen.tn">microsoft.club@esen.tn</a>
             </div>
           </div>
           <div className="footer-bottom">
