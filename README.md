@@ -50,8 +50,3 @@ npm run typecheck  # types only
 
 To change content, edit the data arrays at the top of `src/App.tsx` — `PROJECTS`, `TEAM`, `GALLERY`, `FAQ_ITEMS`, `EVENTS`, and the quiz steps. Layout lives in the JSX, styling in `src/index.css`.
 
-## Deploying
-
-`npm run build` outputs a static site to `dist/`. Upload that directory to your host.
-
-> **Note for GitHub Pages:** the site is now a build-step project rather than a plain static repo, so GitHub Pages cannot build it from source on its own. Add a GitHub Actions workflow that runs `npm ci && npm run build` and publishes `dist/`, and keep `dist/` out of version control. The previous no-build layout is preserved in `legacy/` if you need to fall back.
