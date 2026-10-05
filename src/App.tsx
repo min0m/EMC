@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
 const WEB3FORMS_KEY = '8facfe1e-1254-4b58-b065-402d86c80537'
+const CONTACT_EMAIL = 'microsoft.club@esen.tn'
 
 /* ──────────────── Data ──────────────── */
 const PROJECTS = [
@@ -931,7 +932,7 @@ export default function App() {
               <h3>Campus</h3>
               <a href="http://www.esen.tn/" target="_blank" rel="noopener">ESEN Manouba</a>
               <a href="https://studentambassadors.microsoft.com/" target="_blank" rel="noopener">Microsoft Learn Student Ambassadors</a>
-              <a href="mailto:microsoft.club@esen.tn">microsoft.club@esen.tn</a>
+              <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}`} target="_blank" rel="noopener noreferrer">{CONTACT_EMAIL}</a>
             </div>
           </div>
           <div className="footer-bottom">
