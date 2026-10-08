@@ -907,21 +907,6 @@ label { font-size: 0.88rem; font-weight: 500; color: var(--muted); }
   .brand-name { display: none; }
 }
 
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .marquee-track { animation: none; }
-  .live-dot, .status i { animation: none; }
-  .gallery-card img { transition: none; }
-  .faq-answer { transition: none; }
-  .quiz-progress-bar { transition: none; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
 /* scrollbar hiding */
 .terminal-screen { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
 .terminal-screen::-webkit-scrollbar { width: 4px; }
