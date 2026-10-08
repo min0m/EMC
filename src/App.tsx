@@ -204,11 +204,34 @@ export default function App() {
 
   const resetQuiz = () => { setQuizStep(0); setQuizAnswers([]); setQuizResult(null) }
 
-  const [appValues, setAppValues] = useState({ name: '', email: '', study_level: '', department: '', message: '' })
+  // Anti-abuse: min time before a human can realistically submit + per-browser cooldown
+  const FORM_MIN_FILL_MS = 6000
+  const FORM_COOLDOWN_MS = 90000
+  const FORM_COOLDOWN_KEY = 'emc_apply_cooldown_until'
+  const appOpenedAt = useRef(Date.now())
+
+  const [appValues, setAppValues] = useState({ name: '', email: '', phone: '', study_level: '', department: '', message: '' })
   const [appErrors, setAppErrors] = useState<Record<string, string>>({})
   const [appStatus, setAppStatus] = useState<{ kind: 'idle' | 'sending' | 'error'; msg: string }>({ kind: 'idle', msg: '' })
   const [appBot, setAppBot] = useState(false)
   const [appSent, setAppSent] = useState(false)
+  const [cooldownLeft, setCooldownLeft] = useState(0)
+
+  useEffect(() => {
+    const readCooldown = () => {
+      const until = Number(localStorage.getItem(FORM_COOLDOWN_KEY) || 0)
+      return Math.max(0, until - Date.now())
+    }
+    const left = readCooldown()
+    if (left <= 0) return
+    setCooldownLeft(left)
+    const id = window.setInterval(() => {
+      const remaining = readCooldown()
+      setCooldownLeft(remaining)
+      if (remaining <= 0) window.clearInterval(id)
+    }, 250)
+    return () => window.clearInterval(id)
+  }, [])
 
   const setAppField = (field: string, value: string) => {
     setAppValues(v => ({ ...v, [field]: value }))
@@ -225,6 +248,8 @@ export default function App() {
     if (!appValues.name.trim()) errors.name = 'Please enter your name.'
     if (!appValues.email.trim()) errors.email = 'Please enter your email.'
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(appValues.email.trim())) errors.email = 'Please enter a valid email.'
+    if (!appValues.phone.trim()) errors.phone = 'Please enter your phone number.'
+    else if (!/^[+()\-.\s\d]{8,20}$/.test(appValues.phone.trim())) errors.phone = 'Please enter a valid phone number.'
     if (!appValues.study_level) errors.study_level = 'Please choose your study level.'
     if (!appValues.department) errors.department = 'Please choose a department.'
     return errors
@@ -233,6 +258,18 @@ export default function App() {
   const submitApplication = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (appBot) return
+    if (appStatus.kind === 'sending') return
+
+    const now = Date.now()
+    if (cooldownLeft > 0) {
+      setAppStatus({ kind: 'error', msg: 'Please wait a moment before sending another application.' })
+      return
+    }
+    if (now - appOpenedAt.current < FORM_MIN_FILL_MS) {
+      setAppStatus({ kind: 'error', msg: 'That was quick! Please take a moment to review your answers before sending.' })
+      return
+    }
+
     const errors = validateApp()
     setAppErrors(errors)
     if (Object.keys(errors).length) {
@@ -249,6 +286,7 @@ export default function App() {
     body.append('from_name', 'ESEN Microsoft Club Recruitment')
     body.append('name', appValues.name.trim())
     body.append('email', appValues.email.trim())
+    body.append('phone', appValues.phone.trim())
     body.append('study_level', appValues.study_level)
     body.append('department', appValues.department)
     body.append('message', appValues.message.trim())
@@ -265,6 +303,9 @@ export default function App() {
       const result = await response.json()
       if (!response.ok || !result.success) throw new Error(result.message || 'Submission failed')
       clearTimeout(timer)
+      const until = Date.now() + FORM_COOLDOWN_MS
+      try { localStorage.setItem(FORM_COOLDOWN_KEY, String(until)) } catch { /* private mode */ }
+      setCooldownLeft(FORM_COOLDOWN_MS)
       setAppSent(true)
     } catch (err) {
       clearTimeout(timer)
@@ -274,10 +315,11 @@ export default function App() {
   }
 
   const resetApplication = () => {
-    setAppValues({ name: '', email: '', study_level: '', department: '', message: '' })
+    setAppValues({ name: '', email: '', phone: '', study_level: '', department: '', message: '' })
     setAppErrors({})
     setAppStatus({ kind: 'idle', msg: '' })
     setAppSent(false)
+    appOpenedAt.current = Date.now()
   }
 
   // Nav links
@@ -703,6 +745,23 @@ export default function App() {
                         />
                         <span className="form-error" id="email-error">{appErrors.email}</span>
                       </div>
+                      <div className={`form-group${appErrors.phone ? ' has-error' : ''}`}>
+                        <label htmlFor="phone">Phone number <span className="req">*</span></label>
+                        <input
+                          className="form-input"
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          inputMode="tel"
+                          placeholder="+216 12 345 678"
+                          autoComplete="tel"
+                          aria-invalid={appErrors.phone ? 'true' : 'false'}
+                          aria-describedby="phone-error"
+                          value={appValues.phone}
+                          onChange={e => setAppField('phone', e.target.value)}
+                        />
+                        <span className="form-error" id="phone-error">{appErrors.phone}</span>
+                      </div>
                       <div className={`form-group${appErrors.study_level ? ' has-error' : ''}`}>
                         <label htmlFor="level">Study level <span className="req">*</span></label>
                         <select
@@ -748,8 +807,16 @@ export default function App() {
                         />
                       </div>
                     </div>
-                    <button className="button button-primary submit-button" type="submit" disabled={appStatus.kind === 'sending'}>
-                      {appStatus.kind === 'sending' ? 'Sending…' : 'Send application'}
+                    <button
+                      className="button button-primary submit-button"
+                      type="submit"
+                      disabled={appStatus.kind === 'sending' || cooldownLeft > 0}
+                    >
+                      {appStatus.kind === 'sending'
+                        ? 'Sending…'
+                        : cooldownLeft > 0
+                          ? `Please wait ${Math.ceil(cooldownLeft / 1000)}s`
+                          : 'Send application'}
                     </button>
                     <p className="form-note">We only use your details to respond to this application.</p>
                     <p className={`form-status${appStatus.kind === 'error' ? ' error' : ''}`} role="status" aria-live="polite">{appStatus.msg}</p>
@@ -783,7 +850,7 @@ export default function App() {
                 ))}
               </div>
               <form className="terminal-input" onSubmit={submitTermCmd} autoComplete="off">
-                <span className="terminal-prompt" aria-hidden="true">guest@emc:~$</span>
+                <span className="terminal-prompt" aria-hidden="true"><span className="prompt-user">guest@emc:~</span>$</span>
                 <input
                   ref={termInputRef}
                   id="terminalCmd"
