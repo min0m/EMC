@@ -38,15 +38,7 @@ legacy/               the previous dependency-free site, kept as reference only
 
 `base` is set to `./` in `vite.config.ts`, so the build works from a domain root or a project subpath.
 
-## Working on the site
 
-```bash
-npm install
-npm run dev        # dev server with hot reload
-npm run build      # typecheck + production build into dist/
-npm run preview    # serve the production build locally
-npm run typecheck  # types only
-```
 
 To change content, edit the data arrays at the top of `src/App.tsx` — `PROJECTS`, `TEAM`, `GALLERY`, `FAQ_ITEMS`, `EVENTS`, and the quiz steps. Layout lives in the JSX, styling in `src/index.css`.
 
