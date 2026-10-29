@@ -36,6 +36,19 @@ const GALLERY = [
   { src:'assets/images/asset-27.jpg', alt:'Speaking at a partner event', cat:'events' },
   { src:'assets/images/asset-29.jpg', alt:'Group discussion at a panel', cat:'community' },
   { src:'assets/images/asset-31.jpg', alt:'Audience at the Level Up Workshop', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-01.webp', alt:'Introduction to Web Development session, October 2026 — photo 1', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-02.webp', alt:'Introduction to Web Development session, October 2026 — photo 2', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-03.webp', alt:'Introduction to Web Development session, October 2026 — photo 3', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-04.webp', alt:'Introduction to Web Development session, October 2026 — photo 4', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-05.webp', alt:'Introduction to Web Development session, October 2026 — photo 5', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-06.webp', alt:'Introduction to Web Development session, October 2026 — photo 6', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-07.webp', alt:'Introduction to Web Development session, October 2026 — photo 7', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-08.webp', alt:'Introduction to Web Development session, October 2026 — photo 8', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-09.webp', alt:'Introduction to Web Development session, October 2026 — photo 9', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-10.webp', alt:'Introduction to Web Development session, October 2026 — photo 10', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-11.webp', alt:'Introduction to Web Development session, October 2026 — photo 11', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-12.webp', alt:'Introduction to Web Development session, October 2026 — photo 12', cat:'workshops' },
+  { src:'assets/images/web-dev-session-2026-13.webp', alt:'Introduction to Web Development session, October 2026 — photo 13', cat:'workshops' },
 ]
 
 const FAQ_ITEMS = [
@@ -559,6 +572,24 @@ export default function App() {
                     <div className="event-actions">
 <a className="button button-secondary button-small" href="#join-us" onClick={e => navClick(e as any, 'join-us')}>Membership info</a>
                       <a className="button button-ghost button-small" href="https://www.instagram.com/p/Dd9eqFFg24h/" target="_blank" rel="noopener noreferrer">Watch reel</a>
+                    </div>
+                  </div>
+                </article>
+                <article className="event-item">
+                  <div className="event-date">
+                    <div className="event-day">28</div>
+                    <div className="event-month">OCT</div>
+                  </div>
+                  <div className="event-body">
+                    <h3>Intro to Web Dev Session</h3>
+                    <div className="event-details">
+                      <span className="event-detail">28 October 2026</span>
+                      <span className="event-detail">ESEN Campus</span>
+                      <span className="event-detail">EMC Community</span>
+                    </div>
+                    <p className="event-description">A hands-on introduction to web development with the ESEN Microsoft Club. The session has wrapped up — see the photos and recap on Instagram.</p>
+                    <div className="event-actions">
+                      <a className="button button-ghost button-small" href="https://www.instagram.com/p/DfFoWY7gJdL/?img_index=1" target="_blank" rel="noopener noreferrer">View Instagram post</a>
                     </div>
                   </div>
                 </article>
